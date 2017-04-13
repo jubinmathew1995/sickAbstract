@@ -167,8 +167,20 @@ static void ResizeFunction(int width, int height)
 void drawAxes()
 {
     glBegin(GL_LINES);
-    glVertex3f(windowWidth/2,windowHeight*0.70,0.0);
-    glVertex3f(windowWidth/2,0.0,0.0);
+        glVertex3f(windowWidth/2,windowHeight*0.70,0.0);
+        glVertex3f(windowWidth/2,0.0,0.0);
+    glEnd();
+}
+void drawGrid()
+{
+    int num = windowWidth/(5.0*4);
+    glPointSize(2.0);
+    glBegin(GL_POINTS);
+        for(int i=-200;i<=200;i+=20)
+        {
+             glVertex3f((windowWidth*0.25)+i,(windowHeight*0.35),0.0);
+             glVertex3f((windowWidth*0.25),(windowHeight*0.35)+i,0.0);
+        }
     glEnd();
 }
 
@@ -250,7 +262,6 @@ static void displayFunction(void)
     // clear previous colors.
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    // drawCenterPointsForPrimitives();
     topBar.drawSquare(xPrimCoo[0],yPrimCoo);
     topBar.drawRectangle(xPrimCoo[1],yPrimCoo);
     topBar.drawCircle(xPrimCoo[2],yPrimCoo,30,100);
@@ -258,13 +269,14 @@ static void displayFunction(void)
     topBar.drawHexagon(xPrimCoo[4],yPrimCoo);
     topBar.drawKite(xPrimCoo[5],yPrimCoo);
     drawAxes();
+    drawGrid();
 
     drawMovSquare();
-    drawMovRectangle();
-    drawMovCircle();
-    drawMovTriangle();
-    drawMovHexagon();
-    drawMovKite();
+    // drawMovRectangle();
+    // drawMovCircle();
+    // drawMovTriangle();
+    // drawMovHexagon();
+    // drawMovKite();
 
     // swaps the front and back buffers.
     glutSwapBuffers();
