@@ -5,7 +5,7 @@
 #include <math.h>
 
 // window TITLE, WIDTH and HEIGHT
-#define WINDOW_TITLE_PREFIX "Object Puzzle"
+#define WINDOW_TITLE_PREFIX "Sick Abstract"
 int windowWidth = 800,
     windowHeight = 600;
 
