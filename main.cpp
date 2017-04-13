@@ -41,11 +41,27 @@ void calCenters()
     xPrimCoo[5] = 6*temp;
 }
 
+void *currentfont;
+void setFont(void *font) //function to change the font of the text
+{
+	currentfont = font;
+}
+void drawstring(float x, float y, float z, char *string)//To render the text on the screen
+{
+	char *c;
+	glRasterPos3f(x, y, z);
+
+	for (c = string;*c != '\0';c++)
+		glutBitmapCharacter(currentfont, *c);
+}
 class PrimiviteShapes
 {
 public:
     void drawSquare(int x,int y)
     {
+        setFont(GLUT_BITMAP_HELVETICA_18);
+        drawstring(x,y+45,0.0,"1.");
+
         glColor3f(1.0,1.0,1.0);
         int num=30;
         glBegin(GL_POLYGON);
@@ -57,6 +73,9 @@ public:
     }
     void drawRectangle(int x,int y)
     {
+        setFont(GLUT_BITMAP_HELVETICA_18);
+        drawstring(x,y+45,0.0,"2.");
+
         glColor3f(1.0,1.0,1.0);
         int bre=30, len=50;
 
@@ -67,7 +86,11 @@ public:
             glVertex3f(x-len,y-bre,0.0);
         glEnd();
     }
-    void drawCircle(float cx, float cy, float r, int num_segments) {
+    void drawCircle(float cx, float cy, float r, int num_segments)
+    {
+        setFont(GLUT_BITMAP_HELVETICA_18);
+        drawstring(cx,cy+45,0.0,"3.");
+
         glColor3f(1.0,1.0,1.0);
 
         glBegin(GL_POLYGON);
@@ -81,6 +104,9 @@ public:
     }
     void drawTriangle(int cx,int cy)
     {
+        setFont(GLUT_BITMAP_HELVETICA_18);
+        drawstring(cx,cy+45,0.0,"4.");
+
         glBegin(GL_TRIANGLES);
             glVertex3f(cx,cy+30,0.0);
             glVertex3f(cx-(30*0.8660), cy-(50.0*0.5), 0.0);
@@ -89,6 +115,9 @@ public:
     }
     void drawHexagon(int x, int y)
     {
+        setFont(GLUT_BITMAP_HELVETICA_18);
+        drawstring(x,y+45,0.0,"5.");
+
         glBegin(GL_POLYGON);
             glVertex3f(x-30,y,0.0);
             glVertex3f(x-(30*0.5),y+(30*0.8660),0.0);
@@ -100,6 +129,9 @@ public:
     }
     void drawKite(int x,int y)
     {
+        setFont(GLUT_BITMAP_HELVETICA_18);
+        drawstring(x,y+45,0.0,"6.");
+
         glBegin(GL_POLYGON);
             glVertex3f(x,y+30,0.0);
             glVertex3f(x-30,y,0.0);
@@ -272,11 +304,11 @@ static void displayFunction(void)
     drawGrid();
 
     drawMovSquare();
-    // drawMovRectangle();
-    // drawMovCircle();
-    // drawMovTriangle();
-    // drawMovHexagon();
-    // drawMovKite();
+    drawMovRectangle();
+    drawMovCircle();
+    drawMovTriangle();
+    drawMovHexagon();
+    drawMovKite();
 
     // swaps the front and back buffers.
     glutSwapBuffers();
