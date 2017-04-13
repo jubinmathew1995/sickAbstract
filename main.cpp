@@ -119,10 +119,6 @@ int main(int argc, char *argv[])
     windowHeight = glutGet(GLUT_SCREEN_HEIGHT);
 
     calCenters();
-    // printf("%d\n",windowWidth);
-    // printf("%d\n",windowHeight);
-    // printf("%d,%d,%d,%d,%d,%d,%d\n",yPrimCoo,xPrimCoo[0],xPrimCoo[1],xPrimCoo[2],
-    //         xPrimCoo[3],xPrimCoo[4],xPrimCoo[5],xPrimCoo[6]);
 
     glutInitWindowSize(windowWidth,windowHeight);
     glutInitWindowPosition(0,0);
@@ -167,19 +163,6 @@ static void ResizeFunction(int width, int height)
     gluPerspective(60, (GLfloat)width / (GLfloat)height, 1.0, 1.0);
     glMatrixMode(GL_MODELVIEW);
 }
-// void drawCenterPointsForPrimitives ()
-// {
-//     glPointSize(3.0);	// sers the width of the point
-//     glColor3f(1.0,0.0,0.0);
-//     glBegin(GL_POINTS);
-//         glVertex3f(xPrimCoo[0],yPrimCoo,0.0);
-//         glVertex3f(xPrimCoo[1],yPrimCoo,0.0);
-//         glVertex3f(xPrimCoo[2],yPrimCoo,0.0);
-//         glVertex3f(xPrimCoo[3],yPrimCoo,0.0);
-//         glVertex3f(xPrimCoo[4],yPrimCoo,0.0);
-//         glVertex3f(xPrimCoo[5],yPrimCoo,0.0);
-//     glEnd();
-// }
 
 void drawAxes()
 {
@@ -188,14 +171,7 @@ void drawAxes()
     glVertex3f(windowWidth/2,0.0,0.0);
     glEnd();
 }
-// void drawPoints()
-// {
-//     glPointSize(3.0);	// sers the width of the point
-//     glColor3f(0.0,1.0,0.0);
-//     glBegin(GL_POINTS);
-//         glVertex3f((windowWidth*0.25)+(10.0*xMov), (windowHeight*0.35)+(10.0*yMov), 0.0);
-//     glEnd();
-// }
+
 void drawMovSquare()
 {
     glColor3f(1.0,1.0,1.0);
@@ -282,7 +258,7 @@ static void displayFunction(void)
     topBar.drawHexagon(xPrimCoo[4],yPrimCoo);
     topBar.drawKite(xPrimCoo[5],yPrimCoo);
     drawAxes();
-//    drawPoints();
+
     drawMovSquare();
     drawMovRectangle();
     drawMovCircle();
