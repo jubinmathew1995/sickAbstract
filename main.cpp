@@ -14,10 +14,44 @@ int yPrimCoo,temp,xPrimCoo[6];
 
 
 // movement global variables.
-struct movement
+class movement
 {
-    int xMov=0,yMov=0;
+    public:
+        int xMov,yMov;
+        movement()
+        {
+            xMov=yMov=0;
+        }
+        void setDisp(int x,int y)
+        {
+            xMov=x;
+            yMov=y;
+        }
 }mov[6];
+class level
+{
+public:
+    int lv,shapeCount,shapeIndex[6],centerShapeIndex,completed;
+    movement disp[6];
+    level()
+    {
+        lv=2;
+        shapeCount=3;
+
+        shapeIndex[0]=0;
+        shapeIndex[1]=0;
+        shapeIndex[2]=1;
+        shapeIndex[3]=1;
+        shapeIndex[4]=1;
+        shapeIndex[5]=0;
+
+        centerShapeIndex=2;
+
+        disp[2].setDisp(0,0);
+        disp[3].setDisp(0,5);
+        disp[4].setDisp(0,-5);
+    }
+}play;
 int flag=0;
 
 // function prototype
@@ -63,11 +97,8 @@ class PrimiviteShapes
 public:
     void drawSquare(int x,int y)
     {
-        glColor4f(colorConv(255),colorConv(87),colorConv(51),1.0);
-
         setFont(GLUT_BITMAP_HELVETICA_18);
         drawstring(x,y+45,0.0,"1.");
-
 
         int num=30;
         glBegin(GL_POLYGON);
@@ -79,8 +110,6 @@ public:
     }
     void drawRectangle(int x,int y)
     {
-        glColor4f(colorConv(255),colorConv(87),colorConv(51),1.0);
-
         setFont(GLUT_BITMAP_HELVETICA_18);
         drawstring(x,y+45,0.0,"2.");
 
@@ -95,8 +124,6 @@ public:
     }
     void drawCircle(float cx, float cy, float r, int num_segments)
     {
-        glColor4f(colorConv(255),colorConv(87),colorConv(51),0.3);
-
         setFont(GLUT_BITMAP_HELVETICA_18);
         drawstring(cx,cy+45,0.0,"3.");
 
@@ -111,8 +138,6 @@ public:
     }
     void drawTriangle(int cx,int cy)
     {
-        glColor4f(colorConv(255),colorConv(87),colorConv(51),0.3);
-
         setFont(GLUT_BITMAP_HELVETICA_18);
         drawstring(cx,cy+45,0.0,"4.");
 
@@ -124,8 +149,6 @@ public:
     }
     void drawHexagon(int x, int y)
     {
-        glColor4f(colorConv(255),colorConv(87),colorConv(51),0.3);
-
         setFont(GLUT_BITMAP_HELVETICA_18);
         drawstring(x,y+45,0.0,"5.");
 
@@ -140,7 +163,6 @@ public:
     }
     void drawKite(int x,int y)
     {
-        glColor4f(colorConv(255),colorConv(87),colorConv(51),0.3);
         setFont(GLUT_BITMAP_HELVETICA_18);
         drawstring(x,y+45,0.0,"6.");
 
@@ -150,6 +172,18 @@ public:
             glVertex3f(x,y-50,0.0);
             glVertex3f(x+30,y,0.0);
         glEnd();
+    }
+    void draw(int stat)
+    {
+        switch(stat)
+        {
+            case 0:drawSquare(xPrimCoo[0],yPrimCoo);break;
+            case 1:drawRectangle(xPrimCoo[1],yPrimCoo);break;
+            case 2:drawCircle(xPrimCoo[2],yPrimCoo,30,100);break;
+            case 3:drawTriangle(xPrimCoo[3], yPrimCoo);break;
+            case 4:drawHexagon(xPrimCoo[4],yPrimCoo);break;
+            case 5:drawKite(xPrimCoo[5],yPrimCoo);break;
+        }
     }
 }topBar;
 
@@ -235,108 +269,191 @@ void drawGrid()
         }
     glEnd();
 }
-
-void drawMovSquare()
+class PrimiviteMovShapes
 {
-    glColor4f(colorConv(255),colorConv(87),colorConv(51),1.0);
-    int num=30;
-    glBegin(GL_POLYGON);
-        glVertex3f((windowWidth*0.25)+(10.0*mov[0].xMov)-num,(windowHeight*0.35)+(10.0*mov[0].yMov)+num,0.0);
-        glVertex3f((windowWidth*0.25)+(10.0*mov[0].xMov)+num,(windowHeight*0.35)+(10.0*mov[0].yMov)+num,0.0);
-        glVertex3f((windowWidth*0.25)+(10.0*mov[0].xMov)+num,(windowHeight*0.35)+(10.0*mov[0].yMov)-num,0.0);
-        glVertex3f((windowWidth*0.25)+(10.0*mov[0].xMov)-num,(windowHeight*0.35)+(10.0*mov[0].yMov)-num,0.0);
-    glEnd();
-}
-void drawMovRectangle()
-{
-    glColor4f(colorConv(255),colorConv(87),colorConv(51),1.0);
-    int bre=30, len=50;
-    float x = (windowWidth*0.25)+(10.0*mov[1].xMov),
-            y = (windowHeight*0.35)+(10.0*mov[1].yMov);
-    glBegin(GL_POLYGON);
-        glVertex3f(x-len,y+bre,0.0);
-        glVertex3f(x+len,y+bre,0.0);
-        glVertex3f(x+len,y-bre,0.0);
-        glVertex3f(x-len,y-bre,0.0);
-    glEnd();
-}
-void drawMovCircle() {
-    float num_segments=300,r=30,
-            cx = (windowWidth*0.25)+(10.0*mov[2].xMov),
-            cy = (windowHeight*0.35)+(10.0*mov[2].yMov);
-    glColor4f(colorConv(255),colorConv(87),colorConv(51),1.0);
-
-    glBegin(GL_POLYGON);
-    for (int ii = 0; ii < num_segments; ii++)   {
-        float theta = 2.0f * 3.1415926f * float(ii) / float(num_segments);//get the current angle
-        float x = r * cosf(theta);//calculate the x component
-        float y = r * sinf(theta);//calculate the y component
-        glVertex3f(x + cx, y + cy,0.0);//output vertex
+public:
+    void drawMovSquare(char a)
+    {
+        int x,y;
+        if(a=='s'){
+            x = (windowWidth*0.25)+(10.0*mov[0].xMov);
+                y = (windowHeight*0.35)+(10.0*mov[0].yMov);
+        }
+        else if(a=='r'){
+            x = (windowWidth*0.75)+(10.0*play.disp[0].xMov);
+                y = (windowHeight*0.35)+(10.0*play.disp[0].yMov);
+        }
+        glColor4f(colorConv(255),colorConv(87),colorConv(51),1.0);
+        int num=30;
+        glBegin(GL_POLYGON);
+            glVertex3f(x-num,y+num,0.0);
+            glVertex3f(x+num,y+num,0.0);
+            glVertex3f(x+num,y-num,0.0);
+            glVertex3f(x-num,y-num,0.0);
+        glEnd();
     }
-    glEnd();
-}
-void drawMovTriangle()
-{
-    int cx = (windowWidth*0.25)+(10.0*mov[3].xMov),
-        cy = (windowHeight*0.35)+(10.0*mov[3].yMov);
-    glColor4f(colorConv(255),colorConv(87),colorConv(51),1.0);
+    void drawMovRectangle(char a)
+    {
+        float x,y;
+        glColor4f(colorConv(255),colorConv(87),colorConv(51),1.0);
+        int bre=30, len=50;
+        if(a=='s'){
+            x = (windowWidth*0.25)+(10.0*mov[1].xMov);
+                    y = (windowHeight*0.35)+(10.0*mov[1].yMov);
+        }
+        else if(a=='r'){
+            x = (windowWidth*0.75)+(10.0*play.disp[1].xMov);
+                    y = (windowHeight*0.35)+(10.0*play.disp[1].yMov);
+        }
 
-    glBegin(GL_TRIANGLES);
-        glVertex3f(cx,cy+30,0.0);
-        glVertex3f(cx-(30*0.8660), cy-(50.0*0.5), 0.0);
-        glVertex3f(cx+(30*0.8660), cy-(50.0*0.5), 0.0);
-    glEnd();
-}
-void drawMovHexagon()
-{
-    int x = (windowWidth*0.25)+(10.0*mov[4].xMov),
-        y = (windowHeight*0.35)+(10.0*mov[4].yMov);
 
-    glColor4f(colorConv(255),colorConv(87),colorConv(51),1.0);
+        glBegin(GL_POLYGON);
+            glVertex3f(x-len,y+bre,0.0);
+            glVertex3f(x+len,y+bre,0.0);
+            glVertex3f(x+len,y-bre,0.0);
+            glVertex3f(x-len,y-bre,0.0);
+        glEnd();
+    }
+    void drawMovCircle(char a) {
+        float num_segments=300,r=30,cx,cy;
 
-    glBegin(GL_POLYGON);
-        glVertex3f(x-30,y,0.0);
-        glVertex3f(x-(30*0.5),y+(30*0.8660),0.0);
-        glVertex3f(x+(30*0.5),y+(30*0.8660),0.0);
-        glVertex3f(x+30,y,0.0);
-        glVertex3f(x+(30*0.5),y-(30*0.8660),0.0);
-        glVertex3f(x-(30*0.5),y-(30*0.8660),0.0);
-    glEnd();
-}
-void drawMovKite()
+        if(a=='s'){
+            cx = (windowWidth*0.25)+(10.0*mov[2].xMov);
+            cy = (windowHeight*0.35)+(10.0*mov[2].yMov);
+        }
+        else if(a=='r'){
+            cx = (windowWidth*0.75)+(10.0*play.disp[2].xMov);
+            cy = (windowHeight*0.35)+(10.0*play.disp[2].yMov);
+        }
+
+        glColor4f(colorConv(255),colorConv(87),colorConv(51),1.0);
+
+        glBegin(GL_POLYGON);
+        for (int ii = 0; ii < num_segments; ii++)   {
+            float theta = 2.0f * 3.1415926f * float(ii) / float(num_segments);//get the current angle
+            float x = r * cosf(theta);//calculate the x component
+            float y = r * sinf(theta);//calculate the y component
+            glVertex3f(x + cx, y + cy,0.0);//output vertex
+        }
+        glEnd();
+    }
+    void drawMovTriangle(char a)
+    {
+        int cx,cy;
+
+        if(a=='s'){
+            cx = (windowWidth*0.25)+(10.0*mov[3].xMov);
+            cy = (windowHeight*0.35)+(10.0*mov[3].yMov);
+        }
+        else if(a=='r'){
+            cx = (windowWidth*0.75)+(10.0*play.disp[3].xMov);
+            cy = (windowHeight*0.35)+(10.0*play.disp[3].yMov);
+        }
+
+        glBegin(GL_TRIANGLES);
+            glVertex3f(cx,cy+30,0.0);
+            glVertex3f(cx-(30*0.8660), cy-(50.0*0.5), 0.0);
+            glVertex3f(cx+(30*0.8660), cy-(50.0*0.5), 0.0);
+        glEnd();
+    }
+    void drawMovHexagon(char a)
+    {
+        int x,y;
+
+        if(a=='s'){
+            x = (windowWidth*0.25)+(10.0*mov[4].xMov);
+            y = (windowHeight*0.35)+(10.0*mov[4].yMov);
+        }
+        else if(a=='r'){
+            x = (windowWidth*0.75)+(10.0*play.disp[4].xMov);
+            y = (windowHeight*0.35)+(10.0*play.disp[4].yMov);
+        }
+        glColor4f(colorConv(255),colorConv(87),colorConv(51),1.0);
+
+        glBegin(GL_POLYGON);
+            glVertex3f(x-30,y,0.0);
+            glVertex3f(x-(30*0.5),y+(30*0.8660),0.0);
+            glVertex3f(x+(30*0.5),y+(30*0.8660),0.0);
+            glVertex3f(x+30,y,0.0);
+            glVertex3f(x+(30*0.5),y-(30*0.8660),0.0);
+            glVertex3f(x-(30*0.5),y-(30*0.8660),0.0);
+        glEnd();
+    }
+    void drawMovKite(char a)
+    {
+        int x,y;
+
+        if(a=='s'){
+            x = (windowWidth*0.25)+(10.0*mov[5].xMov);
+            y = (windowHeight*0.35)+(10.0*mov[5].yMov);
+        }
+        else if(a=='r'){
+            x = (windowWidth*0.75)+(10.0*play.disp[5].xMov);
+            y = (windowHeight*0.35)+(10.0*play.disp[5].yMov);
+        }
+        glColor4f(colorConv(255),colorConv(87),colorConv(51),1.0);
+        glBegin(GL_POLYGON);
+            glVertex3f(x,y+30,0.0);
+            glVertex3f(x-30,y,0.0);
+            glVertex3f(x,y-50,0.0);
+            glVertex3f(x+30,y,0.0);
+        glEnd();
+    }
+    void draw(int stat, char a)
+    {
+        // a='r' means result to be displayed in the right side of the screen
+        // a='s' means solution to be displayed in the left side of the screen.
+        switch(stat)
+        {
+            case 0:if(play.shapeIndex[0]==1)drawMovSquare(a);break;
+            case 1:if(play.shapeIndex[1]==1)drawMovRectangle(a);break;
+            case 2:if(play.shapeIndex[2]==1)drawMovCircle(a);break;
+            case 3:if(play.shapeIndex[3]==1)drawMovTriangle(a);break;
+            case 4:if(play.shapeIndex[4]==1)drawMovHexagon(a);break;
+            case 5:if(play.shapeIndex[5]==1)drawMovKite(a);break;
+        }
+    }
+
+}item;
+void chooseColor(int stat)
 {
-    int x = (windowWidth*0.25)+(10.0*mov[5].xMov),
-        y = (windowHeight*0.35)+(10.0*mov[5].yMov);
-    glColor4f(colorConv(255),colorConv(87),colorConv(51),1.0);
-    glBegin(GL_POLYGON);
-        glVertex3f(x,y+30,0.0);
-        glVertex3f(x-30,y,0.0);
-        glVertex3f(x,y-50,0.0);
-        glVertex3f(x+30,y,0.0);
-    glEnd();
+    if(stat==1)
+        glColor4f(colorConv(255),colorConv(87),colorConv(51),1.0);
+    else
+        glColor4f(colorConv(255),colorConv(87),colorConv(51),0.3);
 }
 static void displayFunction(void)
 {
     // clear previous colors.
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    topBar.drawSquare(xPrimCoo[0],yPrimCoo);
-    topBar.drawRectangle(xPrimCoo[1],yPrimCoo);
-    topBar.drawCircle(xPrimCoo[2],yPrimCoo,30,100);
-    topBar.drawTriangle(xPrimCoo[3], yPrimCoo);
-    topBar.drawHexagon(xPrimCoo[4],yPrimCoo);
-    topBar.drawKite(xPrimCoo[5],yPrimCoo);
+    // draw the top bar shapes with the specific color with which they are needed.
+    for(int i=0;i<6;i++)
+    {
+        chooseColor(play.shapeIndex[i]);
+        topBar.draw(i);
+    }
+
     drawAxes();
     drawGrid();
 
-    drawMovSquare();
-    drawMovRectangle();
-    drawMovCircle();
-    drawMovTriangle();
-    drawMovHexagon();
-    drawMovKite();
+    // used for drawing the moving figures/shapes.
+    item.draw(0,'s');
+    item.draw(1,'s');
+    item.draw(2,'s');
+    item.draw(3,'s');
+    item.draw(4,'s');
+    item.draw(5,'s');
 
-    // swaps the front and back buffers.
+    // for drawing the solution
+    item.draw(0,'r');
+    item.draw(1,'r');
+    item.draw(2,'r');
+    item.draw(3,'r');
+    item.draw(4,'r');
+    item.draw(5,'r');
+
+    // // swaps the front and back buffers.
     glutSwapBuffers();
 }
 
@@ -361,22 +478,30 @@ static void keyFunction(unsigned char key, int x, int y)
             break;
         case 'W':
         case 'w':
-            if(mov[flag].yMov<=20)
+        // play.shapeIndex[flag] is used to ensure only the
+        // figure available is moved nothing else.
+            if(mov[flag].yMov<=20&&play.shapeIndex[flag]==1)
                 mov[flag].yMov++;
             break;
         case 'S':
         case 's':
-            if(mov[flag].yMov>=-20)
+        // play.shapeIndex[flag] is used to ensure only the
+        // figure available is moved nothing else.
+            if(mov[flag].yMov>=-20&&play.shapeIndex[flag]==1)
                 mov[flag].yMov--;
             break;
         case 'A':
         case 'a':
-            if(mov[flag].xMov>=-20)
+        // play.shapeIndex[flag] is used to ensure only the
+        // figure available is moved nothing else.
+            if(mov[flag].xMov>=-20&&play.shapeIndex[flag]==1)
                 mov[flag].xMov--;
             break;
         case 'D':
         case 'd':
-            if(mov[flag].xMov<=20)
+            // play.shapeIndex[flag] is used to ensure only the
+            // figure available is moved nothing else.
+            if(mov[flag].xMov<=20&&play.shapeIndex[flag]==1)
                 mov[flag].xMov++;
             break;
         case 13: // when enter is pressed.
