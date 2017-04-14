@@ -361,19 +361,23 @@ static void keyFunction(unsigned char key, int x, int y)
             break;
         case 'W':
         case 'w':
-            mov[flag].yMov++;
+            if(mov[flag].yMov<=20)
+                mov[flag].yMov++;
             break;
         case 'S':
         case 's':
-            mov[flag].yMov--;
+            if(mov[flag].yMov>=-20)
+                mov[flag].yMov--;
             break;
         case 'A':
         case 'a':
-            mov[flag].xMov--;
+            if(mov[flag].xMov>=-20)
+                mov[flag].xMov--;
             break;
         case 'D':
         case 'd':
-            mov[flag].xMov++;
+            if(mov[flag].xMov<=20)
+                mov[flag].xMov++;
             break;
         case 13: // when enter is pressed.
             for(int i=0;i<6;i++)
