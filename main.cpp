@@ -241,6 +241,7 @@ static void ResizeFunction(int width, int height)
     glViewport(0, 0, (GLsizei)width, (GLsizei)height);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
+    //gluOrtho2D(0,width,0,height);
     gluPerspective(60, (GLfloat)width / (GLfloat)height, 1.0, 1.0);
     glMatrixMode(GL_MODELVIEW);
 }
@@ -468,6 +469,7 @@ static void idleFunction(void)
 
 static void keyFunction(unsigned char key, int x, int y)
 {
+    int count=0;
     printf("keyboard--%d->%c\n",key,char(key));
     switch (key)
     {
@@ -506,7 +508,20 @@ static void keyFunction(unsigned char key, int x, int y)
             break;
         case 13: // when enter is pressed.
             for(int i=0;i<6;i++)
+            {
                 printf("%d-->(%d,%d)\n",i,mov[i].xMov,mov[i].yMov);
+                if(play.shapeIndex[i]==1)
+                    if(mov[i].xMov==play.disp[i].xMov && mov[i].yMov==play.disp[i].yMov)
+                        count++;
+            }
+            if(count==play.shapeCount){
+                printf("You win\n" );
+                count=0;
+            }
+            else    {
+                printf("you loose");
+                count=0;
+            }
             break;
         case '1':flag=0;break;
         case '2':flag=1;break;
