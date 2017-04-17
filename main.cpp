@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <GL/glut.h>
+#include <ctype.h>
 #include <math.h>
 
 // window TITLE, WIDTH and HEIGHT
@@ -31,11 +32,12 @@ class movement
 class level
 {
 public:
-    int lv,shapeCount,shapeIndex[6],centerShapeIndex,completed;
+    char *lv,*centerShape;
+    int shapeCount,shapeIndex[6],centerShapeIndex,completed;
     movement disp[6];
     level()
     {
-        lv=2;
+        lv="LEVEL - 02";
         shapeCount=3;
 
         shapeIndex[0]=0;
@@ -45,14 +47,15 @@ public:
         shapeIndex[4]=1;
         shapeIndex[5]=0;
 
-        centerShapeIndex=2;
+        centerShape="Figure 3 MUST be at center";
 
         disp[2].setDisp(0,0);
         disp[3].setDisp(0,5);
         disp[4].setDisp(0,-5);
     }
 }play;
-int flag=0;
+
+int flag=0,winStatus=0;
 
 // function prototype
 static void ResizeFunction(int, int);
@@ -216,8 +219,8 @@ int main(int argc, char *argv[])
     glutIdleFunc(idleFunction);
 
     // sets the glut to listen to the mouse actions.
-    glutMouseFunc(mouseButton);
-    glutMotionFunc(mouseMove);
+    // glutMouseFunc(mouseButton);
+    // glutMotionFunc(mouseMove);
 
     // sets the background color RED:GREEN:BLUE:ALPHA
     glClearColor(colorConv(23),colorConv(32),colorConv(42),0);
@@ -438,6 +441,30 @@ static void displayFunction(void)
     drawAxes();
     drawGrid();
 
+    // display the level of the stage.
+    setFont(GLUT_BITMAP_HELVETICA_18);
+    drawstring((3*windowWidth/4-50),(windowHeight*0.70),0.0,play.lv);
+
+    // display the warning for each stage.
+    setFont(GLUT_BITMAP_HELVETICA_18);
+    drawstring((windowWidth/4-100),(windowHeight*0.03),0.0,play.centerShape);
+
+    // display the win and loss status for the game.
+    if(winStatus==0){
+        setFont(GLUT_BITMAP_HELVETICA_18);
+        drawstring((3*windowWidth/4-100),(windowHeight*0.03),0.0,"                    ");
+    }
+    else if(winStatus==1){
+        glColor4f(0.0,1.0,0.0,1.0);
+        setFont(GLUT_BITMAP_HELVETICA_18);
+        drawstring((3*windowWidth/4-80),(windowHeight*0.03),0.0,"Great! Level Cleared");
+    }
+    if(winStatus==-1){
+        glColor4f(1.0,0.0,0.0,1.0);
+        setFont(GLUT_BITMAP_HELVETICA_18);
+        drawstring((3*windowWidth/4-80),(windowHeight*0.05),0.0,"Sorry! Try again    ");
+    }
+
     // used for drawing the moving figures/shapes.
     item.draw(0,'s');
     item.draw(1,'s');
@@ -515,12 +542,14 @@ static void keyFunction(unsigned char key, int x, int y)
                         count++;
             }
             if(count==play.shapeCount){
-                printf("You win\n" );
+                printf("win\n");
+                winStatus=1;
                 count=0;
             }
             else    {
-                printf("you loose");
                 count=0;
+                printf("loose\n");
+                winStatus=-1;
             }
             break;
         case '1':flag=0;break;
@@ -532,42 +561,41 @@ static void keyFunction(unsigned char key, int x, int y)
     }
     glutPostRedisplay();
 }
-
-static void mouseMove(int x, int y) {
-    printf("Mouse-Coodinates:(%d,%d)\n",x,y );
-}
-
-static void mouseButton(int button, int state, int x, int y) {
-
-	// only start motion if the left button is pressed
-	if (button == GLUT_LEFT_BUTTON) {
-
-		// when the button is released
-		if (state == GLUT_UP) {
-			printf("Mouse--LEFT--onKeyUp--(%d,%d)\n",x,y );
-		}
-		else  {// state = GLUT_DOWN
-            printf("Mouse--LEFT--onKeyDown--(%d,%d)\n",x,y );
-		}
-	}
-    else if (button == GLUT_RIGHT_BUTTON) {
-
-        // when the button is released
-        if (state == GLUT_UP) {
-            printf("Mouse--RIGHT--onKeyUp--(%d,%d)\n",x,y );
-        }
-        else  {// state = GLUT_DOWN
-            printf("Mouse--RIGHT--onKeyDown--(%d,%d)\n",x,y );
-        }
-    }
-    else {
-
-        // when the button is released
-        if (state == GLUT_UP) {
-            printf("Mouse--MIDDLE--onKeyUp--(%d,%d)\n",x,y );
-        }
-        else  {// state = GLUT_DOWN
-            printf("Mouse--MIDDLE--onKeyDown--(%d,%d)\n",x,y );
-        }
-    }
-}
+// static void mouseMove(int x, int y) {
+//     printf("Mouse-Coodinates:(%d,%d)\n",x,y );
+// }
+//
+// static void mouseButton(int button, int state, int x, int y) {
+//
+// 	// only start motion if the left button is pressed
+// 	if (button == GLUT_LEFT_BUTTON) {
+//
+// 		// when the button is released
+// 		if (state == GLUT_UP) {
+// 			printf("Mouse--LEFT--onKeyUp--(%d,%d)\n",x,y );
+// 		}
+// 		else  {// state = GLUT_DOWN
+//             printf("Mouse--LEFT--onKeyDown--(%d,%d)\n",x,y );
+// 		}
+// 	}
+//     else if (button == GLUT_RIGHT_BUTTON) {
+//
+//         // when the button is released
+//         if (state == GLUT_UP) {
+//             printf("Mouse--RIGHT--onKeyUp--(%d,%d)\n",x,y );
+//         }
+//         else  {// state = GLUT_DOWN
+//             printf("Mouse--RIGHT--onKeyDown--(%d,%d)\n",x,y );
+//         }
+//     }
+//     else {
+//
+//         // when the button is released
+//         if (state == GLUT_UP) {
+//             printf("Mouse--MIDDLE--onKeyUp--(%d,%d)\n",x,y );
+//         }
+//         else  {// state = GLUT_DOWN
+//             printf("Mouse--MIDDLE--onKeyDown--(%d,%d)\n",x,y );
+//         }
+//     }
+// }
