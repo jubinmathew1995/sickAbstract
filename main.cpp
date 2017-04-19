@@ -62,6 +62,7 @@ static void ResizeFunction(int, int);
 static void displayFunction(void);
 static void idleFunction(void);
 static void keyFunction(unsigned char, int, int);
+static void processSpecialKeys(int, int, int);
 static void mouseMove(int, int);
 static void mouseButton(int, int, int, int);
 
@@ -213,6 +214,9 @@ int main(int argc, char *argv[])
 
     // keyFunction is called whenever an keyboard event is encountered.
     glutKeyboardFunc(keyFunction);
+
+    // added special keyboard keys like up,down,left and right arroe keys.
+    glutSpecialFunc(processSpecialKeys);
 
     // this IDLE tells the glut to keep calling render function
     // to allow animations.
@@ -559,6 +563,29 @@ static void keyFunction(unsigned char key, int x, int y)
         case '5':flag=4;break;
         case '6':flag=5;break;
     }
+    glutPostRedisplay();
+}
+
+static void processSpecialKeys(int key, int x, int y)
+{
+	switch (key) {
+		case GLUT_KEY_LEFT :
+            if(mov[flag].xMov>=-20&&play.shapeIndex[flag]==1)
+                mov[flag].xMov--;
+			break;
+		case GLUT_KEY_RIGHT :
+            if(mov[flag].xMov<=20&&play.shapeIndex[flag]==1)
+                mov[flag].xMov++;
+			break;
+		case GLUT_KEY_UP :
+            if(mov[flag].yMov<=20&&play.shapeIndex[flag]==1)
+                mov[flag].yMov++;
+            break;
+		case GLUT_KEY_DOWN :
+            if(mov[flag].yMov>=-20&&play.shapeIndex[flag]==1)
+                mov[flag].yMov--;
+            break;
+	}
     glutPostRedisplay();
 }
 // static void mouseMove(int x, int y) {
