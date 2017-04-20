@@ -37,7 +37,7 @@ public:
     movement disp[6];
     level()
     {
-        lv="LEVEL - 02";
+        lv="LEVEL-002";
         shapeCount=3;
 
         shapeIndex[0]=0;
@@ -77,10 +77,6 @@ void calCenters()
     xPrimCoo[3] = 4*temp;
     xPrimCoo[4] = 5*temp;
     xPrimCoo[5] = 6*temp;
-}
-float colorConv(int val)
-{
-    return (float)val/255.0f;
 }
 
 void *currentfont;
@@ -227,7 +223,7 @@ int main(int argc, char *argv[])
     // glutMotionFunc(mouseMove);
 
     // sets the background color RED:GREEN:BLUE:ALPHA
-    glClearColor(colorConv(23),colorConv(32),colorConv(42),0);
+    glClearColor((23.0/255),(32.0/255),(42.0/255),0);
 
     gluOrtho2D(0,windowWidth,0,windowHeight);
 
@@ -255,7 +251,7 @@ static void ResizeFunction(int width, int height)
 
 void drawAxes()
 {
-    glColor4f(colorConv(255),colorConv(87),colorConv(51),1.0);
+    glColor4ub(255,87,51,255);
 
     glLineWidth(3.0);
     glBegin(GL_LINES);
@@ -266,7 +262,7 @@ void drawAxes()
 void drawGrid()
 {
     int num = windowWidth/(5.0*4);
-    glColor4f(colorConv(255),colorConv(87),colorConv(51),1.0);
+    glColor4ub(255,87,51,255);
 
     glPointSize(3.0);
     glBegin(GL_POINTS);
@@ -291,7 +287,7 @@ public:
             x = (windowWidth*0.75)+(10.0*play.disp[0].xMov);
                 y = (windowHeight*0.35)+(10.0*play.disp[0].yMov);
         }
-        glColor4f(colorConv(255),colorConv(87),colorConv(51),1.0);
+        glColor4ub(255,87,51,255);
         int num=30;
         glBegin(GL_POLYGON);
             glVertex3f(x-num,y+num,0.0);
@@ -303,7 +299,7 @@ public:
     void drawMovRectangle(char a)
     {
         float x,y;
-        glColor4f(colorConv(255),colorConv(87),colorConv(51),1.0);
+        glColor4ub(255,87,51,255);
         int bre=30, len=50;
         if(a=='s'){
             x = (windowWidth*0.25)+(10.0*mov[1].xMov);
@@ -334,7 +330,7 @@ public:
             cy = (windowHeight*0.35)+(10.0*play.disp[2].yMov);
         }
 
-        glColor4f(colorConv(255),colorConv(87),colorConv(51),1.0);
+        glColor4ub(255,87,51,255);
 
         glBegin(GL_POLYGON);
         for (int ii = 0; ii < num_segments; ii++)   {
@@ -358,6 +354,8 @@ public:
             cy = (windowHeight*0.35)+(10.0*play.disp[3].yMov);
         }
 
+        glColor4ub(255,87,51,255);
+
         glBegin(GL_TRIANGLES);
             glVertex3f(cx,cy+30,0.0);
             glVertex3f(cx-(30*0.8660), cy-(50.0*0.5), 0.0);
@@ -376,7 +374,7 @@ public:
             x = (windowWidth*0.75)+(10.0*play.disp[4].xMov);
             y = (windowHeight*0.35)+(10.0*play.disp[4].yMov);
         }
-        glColor4f(colorConv(255),colorConv(87),colorConv(51),1.0);
+        glColor4ub(255,87,51,255);
 
         glBegin(GL_POLYGON);
             glVertex3f(x-30,y,0.0);
@@ -399,7 +397,7 @@ public:
             x = (windowWidth*0.75)+(10.0*play.disp[5].xMov);
             y = (windowHeight*0.35)+(10.0*play.disp[5].yMov);
         }
-        glColor4f(colorConv(255),colorConv(87),colorConv(51),1.0);
+        glColor4ub(255,87,51,255);
         glBegin(GL_POLYGON);
             glVertex3f(x,y+30,0.0);
             glVertex3f(x-30,y,0.0);
@@ -426,9 +424,10 @@ public:
 void chooseColor(int stat)
 {
     if(stat==1)
-        glColor4f(colorConv(255),colorConv(87),colorConv(51),1.0);
+        glColor4ub(255,87,51,255);
     else
-        glColor4f(colorConv(255),colorConv(87),colorConv(51),0.3);
+        glColor4ub(255,87,51,77);
+
 }
 static void displayFunction(void)
 {
