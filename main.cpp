@@ -239,14 +239,9 @@ int main(int argc, char *argv[])
 
 static void ResizeFunction(int width, int height)
 {
-    windowHeight=height;
-    windowWidth=width;
-    glViewport(0, 0, (GLsizei)width, (GLsizei)height);
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    //gluOrtho2D(0,width,0,height);
-    gluPerspective(60, (GLfloat)width / (GLfloat)height, 1.0, 1.0);
-    glMatrixMode(GL_MODELVIEW);
+    // windowHeight=height;
+    // windowWidth=width;
+    glutReshapeWindow(windowWidth,windowHeight);
 }
 
 void drawAxes()
