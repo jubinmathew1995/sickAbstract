@@ -13,7 +13,45 @@ int windowWidth = 800,
 // coodinates of the center for the primitives objects.
 int yPrimCoo,temp,xPrimCoo[6];
 
+int flag=0,winStatus=0;
 
+void *currentfont;
+
+// function prototype
+static void ResizeFunction(int, int);
+static void displayFunction(void);
+static void idleFunction(void);
+static void keyFunction(unsigned char, int, int);
+static void processSpecialKeys(int, int, int);
+static void mouseMove(int, int);
+static void mouseButton(int, int, int, int);
+
+// recalculate the centers for the objects.
+void calCenters()
+{
+    yPrimCoo = windowHeight-(0.15*windowHeight);
+    temp = windowWidth/7;
+    xPrimCoo[0] = temp;
+    xPrimCoo[1] = 2*temp;
+    xPrimCoo[2] = 3*temp;
+    xPrimCoo[3] = 4*temp;
+    xPrimCoo[4] = 5*temp;
+    xPrimCoo[5] = 6*temp;
+}
+
+void setFont(void *font) //function to change the font of the text
+{
+	currentfont = font;
+}
+
+void drawstring(float x, float y, float z, char *string)//To render the text on the screen
+{
+	char *c;
+	glRasterPos3f(x, y, z);
+
+	for (c = string;*c != '\0';c++)
+		glutBitmapCharacter(currentfont, *c);
+}
 // movement global variables.
 class movement
 {
@@ -29,6 +67,7 @@ class movement
             yMov=y;
         }
 }mov[6];
+
 class level
 {
 public:
@@ -55,43 +94,6 @@ public:
     }
 }play;
 
-int flag=0,winStatus=0;
-
-// function prototype
-static void ResizeFunction(int, int);
-static void displayFunction(void);
-static void idleFunction(void);
-static void keyFunction(unsigned char, int, int);
-static void processSpecialKeys(int, int, int);
-static void mouseMove(int, int);
-static void mouseButton(int, int, int, int);
-
-// recalculate the centers for the objects.
-void calCenters()
-{
-    yPrimCoo = windowHeight-(0.15*windowHeight);
-    temp = windowWidth/7;
-    xPrimCoo[0] = temp;
-    xPrimCoo[1] = 2*temp;
-    xPrimCoo[2] = 3*temp;
-    xPrimCoo[3] = 4*temp;
-    xPrimCoo[4] = 5*temp;
-    xPrimCoo[5] = 6*temp;
-}
-
-void *currentfont;
-void setFont(void *font) //function to change the font of the text
-{
-	currentfont = font;
-}
-void drawstring(float x, float y, float z, char *string)//To render the text on the screen
-{
-	char *c;
-	glRasterPos3f(x, y, z);
-
-	for (c = string;*c != '\0';c++)
-		glutBitmapCharacter(currentfont, *c);
-}
 class PrimiviteShapes
 {
 public:
@@ -187,87 +189,6 @@ public:
     }
 }topBar;
 
-int main(int argc, char *argv[])
-{
-    // init GLUT and create Window
-    glutInit(&argc, argv);
-    glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
-    windowWidth = glutGet(GLUT_SCREEN_WIDTH);
-    windowHeight = glutGet(GLUT_SCREEN_HEIGHT);
-
-    calCenters();
-
-    glutInitWindowSize(windowWidth,windowHeight);
-    glutInitWindowPosition(0,0);
-    glutCreateWindow(WINDOW_TITLE_PREFIX);
-
-
-    // setting correct perspective when window size is changed.
-    glutReshapeFunc(ResizeFunction);
-
-    // register callbacks
-    glutDisplayFunc(displayFunction);
-
-    // keyFunction is called whenever an keyboard event is encountered.
-    glutKeyboardFunc(keyFunction);
-
-    // added special keyboard keys like up,down,left and right arroe keys.
-    glutSpecialFunc(processSpecialKeys);
-
-    // this IDLE tells the glut to keep calling render function
-    // to allow animations.
-    glutIdleFunc(idleFunction);
-
-    // sets the glut to listen to the mouse actions.
-    // glutMouseFunc(mouseButton);
-    // glutMotionFunc(mouseMove);
-
-    // sets the background color RED:GREEN:BLUE:ALPHA
-    glClearColor((23.0/255),(32.0/255),(42.0/255),0);
-
-    gluOrtho2D(0,windowWidth,0,windowHeight);
-
-    // Enabling transparency for the color buffer.
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-    // enter GLUT event processing cycle/
-    glutMainLoop();
-
-    return 1;
-}
-
-static void ResizeFunction(int width, int height)
-{
-    // windowHeight=height;
-    // windowWidth=width;
-    glutReshapeWindow(windowWidth,windowHeight);
-}
-
-void drawAxes()
-{
-    glColor4ub(255,87,51,255);
-
-    glLineWidth(3.0);
-    glBegin(GL_LINES);
-        glVertex3f(windowWidth/2,windowHeight*0.70,0.0);
-        glVertex3f(windowWidth/2,0.0,0.0);
-    glEnd();
-}
-void drawGrid()
-{
-    int num = windowWidth/(5.0*4);
-    glColor4ub(255,87,51,255);
-
-    glPointSize(3.0);
-    glBegin(GL_POINTS);
-        for(int i=-200;i<=200;i+=20)
-        {
-             glVertex3f((windowWidth*0.25)+i,(windowHeight*0.35),0.0);
-             glVertex3f((windowWidth*0.25),(windowHeight*0.35)+i,0.0);
-        }
-    glEnd();
-}
 class PrimiviteMovShapes
 {
 public:
@@ -416,6 +337,83 @@ public:
     }
 
 }item;
+
+int main(int argc, char *argv[])
+{
+    // init GLUT and create Window
+    glutInit(&argc, argv);
+    glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
+    windowWidth = glutGet(GLUT_SCREEN_WIDTH);
+    windowHeight = glutGet(GLUT_SCREEN_HEIGHT);
+
+    calCenters();
+
+    glutInitWindowSize(windowWidth,windowHeight);
+    glutInitWindowPosition(0,0);
+    glutCreateWindow(WINDOW_TITLE_PREFIX);
+
+
+    // setting correct perspective when window size is changed.
+    glutReshapeFunc(ResizeFunction);
+
+    // register callbacks
+    glutDisplayFunc(displayFunction);
+
+    // keyFunction is called whenever an keyboard event is encountered.
+    glutKeyboardFunc(keyFunction);
+
+    // added special keyboard keys like up,down,left and right arroe keys.
+    glutSpecialFunc(processSpecialKeys);
+
+    // this IDLE tells the glut to keep calling render function
+    // to allow animations.
+    glutIdleFunc(idleFunction);
+
+    // sets the glut to listen to the mouse actions.
+    // glutMouseFunc(mouseButton);
+    // glutMotionFunc(mouseMove);
+
+    // sets the background color RED:GREEN:BLUE:ALPHA
+    glClearColor((23.0/255),(32.0/255),(42.0/255),0);
+
+    gluOrtho2D(0,windowWidth,0,windowHeight);
+
+    // Enabling transparency for the color buffer.
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+    // enter GLUT event processing cycle/
+    glutMainLoop();
+
+    return 1;
+}
+
+void drawAxes()
+{
+    glColor4ub(255,87,51,255);
+
+    glLineWidth(3.0);
+    glBegin(GL_LINES);
+        glVertex3f(windowWidth/2,windowHeight*0.70,0.0);
+        glVertex3f(windowWidth/2,0.0,0.0);
+    glEnd();
+}
+
+void drawGrid()
+{
+    int num = windowWidth/(5.0*4);
+    glColor4ub(255,87,51,255);
+
+    glPointSize(3.0);
+    glBegin(GL_POINTS);
+        for(int i=-200;i<=200;i+=20)
+        {
+             glVertex3f((windowWidth*0.25)+i,(windowHeight*0.35),0.0);
+             glVertex3f((windowWidth*0.25),(windowHeight*0.35)+i,0.0);
+        }
+    glEnd();
+}
+
 void chooseColor(int stat)
 {
     if(stat==1)
@@ -424,6 +422,14 @@ void chooseColor(int stat)
         glColor4ub(255,87,51,77);
 
 }
+
+static void ResizeFunction(int width, int height)
+{
+    // windowHeight=height;
+    // windowWidth=width;
+    glutReshapeWindow(windowWidth,windowHeight);
+}
+
 static void displayFunction(void)
 {
     // clear previous colors.
@@ -482,7 +488,6 @@ static void displayFunction(void)
     // // swaps the front and back buffers.
     glutSwapBuffers();
 }
-
 
 static void idleFunction(void)
 {
