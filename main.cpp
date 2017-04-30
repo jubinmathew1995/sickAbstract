@@ -40,6 +40,7 @@ int main(int argc, char *argv[])
     windowHeight = glutGet(GLUT_SCREEN_HEIGHT);
 
     calCenters();
+    play.selectLevel(1);
 
     glutInitWindowSize(windowWidth,windowHeight);
     glutInitWindowPosition(0,0);

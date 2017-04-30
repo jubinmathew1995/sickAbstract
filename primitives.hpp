@@ -52,12 +52,13 @@ class movement
 class level
 {
 public:
-    char *lv,*centerShape;
-    int shapeCount,shapeIndex[6],centerShapeIndex,completed;
+    char lv[10],centerShape[27];
+    int lvNo,shapeCount,shapeIndex[6],centerShapeIndex,completed;
     movement disp[6];
     level()
     {
-        lv="LEVEL-002";
+        lvNo=2;
+        strcpy(lv,"");
         shapeCount=3;
 
         shapeIndex[0]=0;
@@ -67,11 +68,75 @@ public:
         shapeIndex[4]=1;
         shapeIndex[5]=0;
 
-        centerShape="Figure 3 MUST be at center";
+        strcpy(centerShape,"");
 
         disp[2].setDisp(0,0);
         disp[3].setDisp(0,5);
         disp[4].setDisp(0,-5);
+    }
+
+    void break_and_set_level(char *line,int n)
+    {
+        int temp=0;
+        char *x=strtok(line,":");   // level number -atoi
+
+        // checking if this is the level which is requested.
+        if(atoi(x)!=n)
+            return;
+
+        char *y=strtok(NULL,":");   // level string -str
+        char *z=strtok(NULL,":");   // shape count -atoi
+        char *a=strtok(NULL,":");   // primitive status -atoi
+        char *b=strtok(NULL,":");   // hint for the level -str
+        char *c=strtok(NULL,":");   // primitive object coodinates -str
+        char *innele=strtok(a,",");
+        temp = 0;
+        while( innele != NULL )
+       {
+        //   printf( "%d\n", atoi(innele) );
+            shapeIndex[temp++]=atoi(innele);
+            innele = strtok(NULL, ",");
+       }
+        char *coo=strtok(c,",");
+        temp = 0;
+        while( coo != NULL )
+        {
+        //   printf( "%d\n", atoi(coo) );
+            int x = atoi(coo);
+            coo = strtok(NULL, ",");
+
+            int y = atoi(coo);
+            coo = strtok(NULL, ",");
+            disp[temp++].setDisp(x,y);
+        }
+        // set level number.
+        lvNo = atoi(x);
+
+        // set level string.
+        strcpy(lv,y);
+
+        // set shape count for the given level.
+        shapeCount = atoi(z);
+
+        // set center chape hint.
+        strcpy(centerShape,b);
+    }
+
+    void DataExtract(int n)
+    {
+        char data[100];
+        FILE *fp;
+        fp = fopen("config","r");
+        while(fgets(data, 255, (FILE*) fp)) {
+            char *line=strtok(data,";");
+            break_and_set_level(line,n);
+        }
+        fclose(fp);
+    }
+
+    void selectLevel(int n)
+    {
+        DataExtract(n);
     }
 }play;
 
@@ -224,7 +289,7 @@ public:
         }
         else if(a=='r'){
             cx = (windowWidth*0.75)+(10.0*play.disp[2].xMov);
-            cy = (windowHeight*0.35)+(10.0*play.disp[2].yMov);
+            cy = (+windowHeight*0.35)+(10.0*play.disp[2].yMov);
         }
 
         glColor4ub(255,87,51,255);
