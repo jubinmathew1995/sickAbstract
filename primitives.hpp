@@ -1,3 +1,4 @@
+
 int windowWidth = 800,
     windowHeight = 600;
 // coodinates of the center for the primitives objects.
@@ -8,8 +9,6 @@ int flag=0,winStatus=0;
 int windowStatus = 0;
 
 int currentLevel = 1;
-
-void *currentfont;
 
 // recalculate the centers for the objects.
 void calCenters()
@@ -24,17 +23,17 @@ void calCenters()
     xPrimCoo[5] = 6*temp;
 }
 
+void *currentfont;
 void setFont(void *font) //function to change the font of the text
 {
 	currentfont = font;
 }
-
-void drawstring(float x, float y, float z, char *string)//To render the text on the screen
+void drawstring(float x, float y, float z, char *str)//To render the text on the screen
 {
 	char *c;
 	glRasterPos3f(x, y, z);
 
-	for (c = string;*c != '\0';c++)
+	for (c = str;*c != '\0';c++)
 		glutBitmapCharacter(currentfont, *c);
 }
 
@@ -48,10 +47,9 @@ void drawAxes()
         glVertex3f(windowWidth/2,0.0,0.0);
     glEnd();
 }
-
 void drawGrid()
 {
-    int num = windowWidth/(5.0*4);
+    //int num = windowWidth/(5.0*4);
     glColor4ub(255,87,51,255);
 
     glPointSize(3.0);
@@ -183,7 +181,8 @@ public:
     void drawSquare(int x,int y)
     {
         setFont(GLUT_BITMAP_HELVETICA_18);
-        drawstring(x,y+45,0.0,"1.");
+        char name[]="1.";
+        drawstring(x,y+45,0.0,name);
 
         int num=30;
         glBegin(GL_POLYGON);
@@ -196,7 +195,8 @@ public:
     void drawRectangle(int x,int y)
     {
         setFont(GLUT_BITMAP_HELVETICA_18);
-        drawstring(x,y+45,0.0,"2.");
+        char name[]="2.";
+        drawstring(x,y+45,0.0,name);
 
         int bre=30, len=50;
 
@@ -210,7 +210,8 @@ public:
     void drawCircle(float cx, float cy, float r, int num_segments)
     {
         setFont(GLUT_BITMAP_HELVETICA_18);
-        drawstring(cx,cy+45,0.0,"3.");
+        char name[]="3.";
+        drawstring(cx,cy+45,0.0,name);
 
         glBegin(GL_POLYGON);
         for (int ii = 0; ii < num_segments; ii++)   {
@@ -224,7 +225,8 @@ public:
     void drawTriangle(int cx,int cy)
     {
         setFont(GLUT_BITMAP_HELVETICA_18);
-        drawstring(cx,cy+45,0.0,"4.");
+        char name[]="4.";
+        drawstring(cx,cy+45,0.0,name);
 
         glBegin(GL_TRIANGLES);
             glVertex3f(cx,cy+30,0.0);
@@ -235,7 +237,8 @@ public:
     void drawHexagon(int x, int y)
     {
         setFont(GLUT_BITMAP_HELVETICA_18);
-        drawstring(x,y+45,0.0,"5.");
+        char name[]="5.";
+        drawstring(x,y+45,0.0,name);
 
         glBegin(GL_POLYGON);
             glVertex3f(x-30,y,0.0);
@@ -249,7 +252,8 @@ public:
     void drawKite(int x,int y)
     {
         setFont(GLUT_BITMAP_HELVETICA_18);
-        drawstring(x,y+45,0.0,"6.");
+        char name[]="6.";
+        drawstring(x,y+45,0.0,name);
 
         glBegin(GL_POLYGON);
             glVertex3f(x,y+30,0.0);
@@ -271,7 +275,6 @@ public:
         }
     }
 }topBar;
-
 class PrimiviteMovShapes
 {
 public:
@@ -444,21 +447,25 @@ void window3()
     // display the win and loss status for the game.
     if(winStatus==0){
         setFont(GLUT_BITMAP_HELVETICA_18);
-        drawstring((3*windowWidth/4-100),(windowHeight*0.03),0.0,"                    ");
+        char name[]="                    ";
+        drawstring((3*windowWidth/4-100),(windowHeight*0.03),0.0,name);
     }
     else if(winStatus==1){
         glColor4f(0.0,1.0,0.0,1.0);
         setFont(GLUT_BITMAP_HELVETICA_18);
-        drawstring((3*windowWidth/4-80),(windowHeight*0.08),0.0,"Great! Level Cleared");
+        char name[]="Great! Level Cleared";
+        drawstring((3*windowWidth/4-80),(windowHeight*0.08),0.0,name);
 
         glColor4f(1.0,1.0,1.0,1.0);
         setFont(GLUT_BITMAP_HELVETICA_18);
-        drawstring((3*windowWidth/4-100),(windowHeight*0.03),0.0,"Press n to jump to next level.");
+        char name1[]="Press n to jump to next level.";
+        drawstring((3*windowWidth/4-100),(windowHeight*0.03),0.0,name1);
     }
     if(winStatus==-1){
         glColor4f(1.0,0.0,0.0,1.0);
         setFont(GLUT_BITMAP_HELVETICA_18);
-        drawstring((3*windowWidth/4-80),(windowHeight*0.08),0.0,"Sorry! Try again    ");
+        char name[]="Sorry! Try again    ";
+        drawstring((3*windowWidth/4-80),(windowHeight*0.08),0.0,name);
     }
 
     // used for drawing the moving figures/shapes.
