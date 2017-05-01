@@ -541,19 +541,19 @@ void keyboardWindow3(unsigned char key, int x, int y)
         case 13: // when enter is pressed.
             for(int i=0;i<6;i++)
             {
-                printf("%d-->(%d,%d)\n",i,mov[i].xMov,mov[i].yMov);
+                //printf("%d-->(%d,%d)\n",i,mov[i].xMov,mov[i].yMov);
                 if(play.shapeIndex[i]==1)
                     if(mov[i].xMov==play.disp[i].xMov && mov[i].yMov==play.disp[i].yMov)
                         count++;
             }
             if(count==play.shapeCount){
-                printf("win\n");
+                //printf("win\n");
                 winStatus=1;
                 count=0;
             }
             else    {
                 count=0;
-                printf("loose\n");
+                //printf("loose\n");
                 winStatus=-1;
             }
             break;
