@@ -7,6 +7,8 @@ int flag=0,winStatus=0;
 
 int windowStatus = 0;
 
+int currentLevel = 1;
+
 void *currentfont;
 
 // recalculate the centers for the objects.
@@ -447,12 +449,16 @@ void window3()
     else if(winStatus==1){
         glColor4f(0.0,1.0,0.0,1.0);
         setFont(GLUT_BITMAP_HELVETICA_18);
-        drawstring((3*windowWidth/4-80),(windowHeight*0.03),0.0,"Great! Level Cleared");
+        drawstring((3*windowWidth/4-80),(windowHeight*0.08),0.0,"Great! Level Cleared");
+
+        glColor4f(1.0,1.0,1.0,1.0);
+        setFont(GLUT_BITMAP_HELVETICA_18);
+        drawstring((3*windowWidth/4-100),(windowHeight*0.03),0.0,"Press n to jump to next level.");
     }
     if(winStatus==-1){
         glColor4f(1.0,0.0,0.0,1.0);
         setFont(GLUT_BITMAP_HELVETICA_18);
-        drawstring((3*windowWidth/4-80),(windowHeight*0.05),0.0,"Sorry! Try again    ");
+        drawstring((3*windowWidth/4-80),(windowHeight*0.08),0.0,"Sorry! Try again    ");
     }
 
     // used for drawing the moving figures/shapes.
@@ -508,6 +514,22 @@ void keyboardWindow3(unsigned char key, int x, int y)
             // figure available is moved nothing else.
             if(mov[flag].xMov<=20&&play.shapeIndex[flag]==1)
                 mov[flag].xMov++;
+            break;
+        case 'n':
+        case 'N':
+            // if the player clear this level then in 'n'/'N'
+            // we have to jump into the next level.
+            currentLevel++;
+            // reset the winStatus to initial before going to new level.
+            winStatus=0;
+            // load the data of the new level.
+            play.selectLevel(currentLevel);
+            // Resetting the displacement of each of the primitives to
+            // their actual value.
+            for(int i=0;i<6;i++)
+            {
+                mov[i].setDisp(0,0);
+            }
             break;
         case 13: // when enter is pressed.
             for(int i=0;i<6;i++)
