@@ -10,6 +10,7 @@ int windowStatus = 0;
 
 int currentLevel = 1;
 
+int primitiveColor[6][3] = {{239,83,80},{56,142,60},{33,150,243},{255,152,0},{69,39,160},{255,0,255}};
 // recalculate the centers for the objects.
 void calCenters()
 {
@@ -62,12 +63,12 @@ void drawGrid()
     glEnd();
 }
 
-void chooseColor(int stat)
+void chooseColor(int r,int g,int b,int stat)
 {
     if(stat==1)
-        glColor4ub(255,87,51,255);
+        glColor4ub(r,g,b,255);
     else
-        glColor4ub(255,87,51,77);
+        glColor4ub(61,61,61,255);
 
 }
 
@@ -289,7 +290,7 @@ public:
             x = (windowWidth*0.75)+(10.0*play.disp[0].xMov);
                 y = (windowHeight*0.35)+(10.0*play.disp[0].yMov);
         }
-        glColor4ub(255,87,51,255);
+        chooseColor(primitiveColor[0][0],primitiveColor[0][1],primitiveColor[0][2],play.shapeIndex[0]);
         int num=30;
         glBegin(GL_POLYGON);
             glVertex3f(x-num,y+num,0.0);
@@ -301,7 +302,6 @@ public:
     void drawMovRectangle(char a)
     {
         float x,y;
-        glColor4ub(255,87,51,255);
         int bre=30, len=50;
         if(a=='s'){
             x = (windowWidth*0.25)+(10.0*mov[1].xMov);
@@ -311,8 +311,7 @@ public:
             x = (windowWidth*0.75)+(10.0*play.disp[1].xMov);
                     y = (windowHeight*0.35)+(10.0*play.disp[1].yMov);
         }
-
-
+        chooseColor(primitiveColor[1][0],primitiveColor[1][1],primitiveColor[1][2],play.shapeIndex[1]);
         glBegin(GL_POLYGON);
             glVertex3f(x-len,y+bre,0.0);
             glVertex3f(x+len,y+bre,0.0);
@@ -331,9 +330,7 @@ public:
             cx = (windowWidth*0.75)+(10.0*play.disp[2].xMov);
             cy = (+windowHeight*0.35)+(10.0*play.disp[2].yMov);
         }
-
-        glColor4ub(255,87,51,255);
-
+        chooseColor(primitiveColor[2][0],primitiveColor[2][1],primitiveColor[2][2],play.shapeIndex[2]);
         glBegin(GL_POLYGON);
         for (int ii = 0; ii < num_segments; ii++)   {
             float theta = 2.0f * 3.1415926f * float(ii) / float(num_segments);//get the current angle
@@ -355,9 +352,7 @@ public:
             cx = (windowWidth*0.75)+(10.0*play.disp[3].xMov);
             cy = (windowHeight*0.35)+(10.0*play.disp[3].yMov);
         }
-
-        glColor4ub(255,87,51,255);
-
+        chooseColor(primitiveColor[3][0],primitiveColor[3][1],primitiveColor[3][2],play.shapeIndex[3]);
         glBegin(GL_TRIANGLES);
             glVertex3f(cx,cy+30,0.0);
             glVertex3f(cx-(30*0.8660), cy-(50.0*0.5), 0.0);
@@ -376,8 +371,7 @@ public:
             x = (windowWidth*0.75)+(10.0*play.disp[4].xMov);
             y = (windowHeight*0.35)+(10.0*play.disp[4].yMov);
         }
-        glColor4ub(255,87,51,255);
-
+        chooseColor(primitiveColor[4][0],primitiveColor[4][1],primitiveColor[4][2],play.shapeIndex[4]);
         glBegin(GL_POLYGON);
             glVertex3f(x-30,y,0.0);
             glVertex3f(x-(30*0.5),y+(30*0.8660),0.0);
@@ -399,7 +393,7 @@ public:
             x = (windowWidth*0.75)+(10.0*play.disp[5].xMov);
             y = (windowHeight*0.35)+(10.0*play.disp[5].yMov);
         }
-        glColor4ub(255,87,51,255);
+        chooseColor(primitiveColor[5][0],primitiveColor[5][1],primitiveColor[5][2],play.shapeIndex[5]);
         glBegin(GL_POLYGON);
             glVertex3f(x,y+30,0.0);
             glVertex3f(x-30,y,0.0);
@@ -429,7 +423,7 @@ void window3()
     // draw the top bar shapes with the specific color with which they are needed.
     for(int i=0;i<6;i++)
     {
-        chooseColor(play.shapeIndex[i]);
+        chooseColor(primitiveColor[i][0],primitiveColor[i][1],primitiveColor[i][2],play.shapeIndex[i]);
         topBar.draw(i);
     }
 
