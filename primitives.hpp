@@ -4,7 +4,7 @@ int windowWidth = 800,
 // coodinates of the center for the primitives objects.
 int yPrimCoo,temp,xPrimCoo[6];
 
-int flag=0,winStatus=0;
+int flag=-1,winStatus=0;
 
 int windowStatus = 0;
 
@@ -193,6 +193,18 @@ public:
             glVertex3f(x-num,y-num,0.0);
         glEnd();
     }
+    void drawSquareBorder(int x,int y)
+    {
+        int num=33;
+        glLineWidth(2.0);
+        glColor3f(1.0,1.0,1.0);
+        glBegin(GL_LINE_LOOP);
+            glVertex3f(x-num,y+num,0.0);
+            glVertex3f(x+num,y+num,0.0);
+            glVertex3f(x+num,y-num,0.0);
+            glVertex3f(x-num,y-num,0.0);
+        glEnd();
+    }
     void drawRectangle(int x,int y)
     {
         setFont(GLUT_BITMAP_HELVETICA_18);
@@ -202,6 +214,18 @@ public:
         int bre=30, len=50;
 
         glBegin(GL_POLYGON);
+            glVertex3f(x-len,y+bre,0.0);
+            glVertex3f(x+len,y+bre,0.0);
+            glVertex3f(x+len,y-bre,0.0);
+            glVertex3f(x-len,y-bre,0.0);
+        glEnd();
+    }
+    void drawRectangleBorder(int x,int y)
+    {
+        int bre=33, len=53;
+        glLineWidth(2.0);
+        glColor3f(1.0,1.0,1.0);
+        glBegin(GL_LINE_LOOP);
             glVertex3f(x-len,y+bre,0.0);
             glVertex3f(x+len,y+bre,0.0);
             glVertex3f(x+len,y-bre,0.0);
@@ -223,6 +247,19 @@ public:
         }
         glEnd();
     }
+    void drawCircleBorder(float cx, float cy, float r, int num_segments)
+    {
+        glLineWidth(2.0);
+        glColor3f(1.0,1.0,1.0);
+        glBegin(GL_LINE_LOOP);
+        for (int ii = 0; ii < num_segments; ii++)   {
+            float theta = 2.0f * 3.1415926f * float(ii) / float(num_segments);//get the current angle
+            float x = r * cosf(theta);//calculate the x component
+            float y = r * sinf(theta);//calculate the y component
+            glVertex3f(x + cx, y + cy,0.0);//output vertex
+        }
+        glEnd();
+    }
     void drawTriangle(int cx,int cy)
     {
         setFont(GLUT_BITMAP_HELVETICA_18);
@@ -233,6 +270,16 @@ public:
             glVertex3f(cx,cy+30,0.0);
             glVertex3f(cx-(30*0.8660), cy-(50.0*0.5), 0.0);
             glVertex3f(cx+(30*0.8660), cy-(50.0*0.5), 0.0);
+        glEnd();
+    }
+    void drawTriangleBorder(int cx,int cy)
+    {
+        glLineWidth(2.0);
+        glColor3f(1.0,1.0,1.0);
+        glBegin(GL_LINE_LOOP);
+            glVertex3f(cx,cy+30+5,0.0);
+            glVertex3f(cx-(30*0.8660)-4, cy-(50.0*0.5)-3, 0.0);
+            glVertex3f(cx+(30*0.8660)+4, cy-(50.0*0.5)-3, 0.0);
         glEnd();
     }
     void drawHexagon(int x, int y)
@@ -250,6 +297,19 @@ public:
             glVertex3f(x-(30*0.5),y-(30*0.8660),0.0);
         glEnd();
     }
+    void drawHexagonBorder(int x,int y)
+    {
+        glLineWidth(2.0);
+        glColor3f(1.0,1.0,1.0);
+        glBegin(GL_LINE_LOOP);
+            glVertex3f(x-34,y,0.0);
+            glVertex3f(x-(30*0.5),y+(30*0.8660)+3,0.0);
+            glVertex3f(x+(30*0.5),y+(30*0.8660)+3,0.0);
+            glVertex3f(x+34,y,0.0);
+            glVertex3f(x+(30*0.5),y-(30*0.8660)-3,0.0);
+            glVertex3f(x-(30*0.5),y-(30*0.8660)-3,0.0);
+        glEnd();
+    }
     void drawKite(int x,int y)
     {
         setFont(GLUT_BITMAP_HELVETICA_18);
@@ -263,16 +323,45 @@ public:
             glVertex3f(x+30,y,0.0);
         glEnd();
     }
+    void drawKiteBorder(int x,int y)
+    {
+        glLineWidth(2.0);
+        glColor3f(1.0,1.0,1.0);
+        glBegin(GL_LINE_LOOP);
+            glVertex3f(x,y+33,0.0);
+            glVertex3f(x-33,y,0.0);
+            glVertex3f(x,y-54,0.0);
+            glVertex3f(x+33,y,0.0);
+        glEnd();
+    }
     void draw(int stat)
     {
         switch(stat)
         {
-            case 0:drawSquare(xPrimCoo[0],yPrimCoo);break;
-            case 1:drawRectangle(xPrimCoo[1],yPrimCoo);break;
-            case 2:drawCircle(xPrimCoo[2],yPrimCoo,30,100);break;
-            case 3:drawTriangle(xPrimCoo[3], yPrimCoo);break;
-            case 4:drawHexagon(xPrimCoo[4],yPrimCoo);break;
-            case 5:drawKite(xPrimCoo[5],yPrimCoo);break;
+            case 0:drawSquare(xPrimCoo[0],yPrimCoo);
+                    if (flag==0)
+                        drawSquareBorder(xPrimCoo[0],yPrimCoo);
+                    break;
+            case 1:drawRectangle(xPrimCoo[1],yPrimCoo);
+                    if (flag==1)
+                        drawRectangleBorder(xPrimCoo[1],yPrimCoo);
+                    break;
+            case 2:drawCircle(xPrimCoo[2],yPrimCoo,30,100);
+                    if (flag==2)
+                        drawCircleBorder(xPrimCoo[2],yPrimCoo,33,100);
+                    break;
+            case 3:drawTriangle(xPrimCoo[3], yPrimCoo);
+                    if (flag==3)
+                        drawTriangleBorder(xPrimCoo[3], yPrimCoo);
+                    break;
+            case 4:drawHexagon(xPrimCoo[4],yPrimCoo);
+                    if (flag==4)
+                        drawHexagonBorder(xPrimCoo[4],yPrimCoo);
+                    break;
+            case 5:drawKite(xPrimCoo[5],yPrimCoo);
+                    if (flag==5)
+                        drawKiteBorder(xPrimCoo[5],yPrimCoo);
+                    break;
         }
     }
 }topBar;
@@ -531,6 +620,8 @@ void keyboardWindow3(unsigned char key, int x, int y)
             {
                 mov[i].setDisp(0,0);
             }
+            // making the selected object back to its default position.
+            flag=-1;
             break;
         case 13: // when enter is pressed.
             for(int i=0;i<6;i++)
