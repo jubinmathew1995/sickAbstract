@@ -339,27 +339,27 @@ public:
         switch(stat)
         {
             case 0:drawSquare(xPrimCoo[0],yPrimCoo);
-                    if (flag==0)
+                    if (flag==0 && play.shapeIndex[0]==1)
                         drawSquareBorder(xPrimCoo[0],yPrimCoo);
                     break;
             case 1:drawRectangle(xPrimCoo[1],yPrimCoo);
-                    if (flag==1)
+                    if (flag==1 && play.shapeIndex[1]==1)
                         drawRectangleBorder(xPrimCoo[1],yPrimCoo);
                     break;
             case 2:drawCircle(xPrimCoo[2],yPrimCoo,30,100);
-                    if (flag==2)
+                    if (flag==2 && play.shapeIndex[2]==1)
                         drawCircleBorder(xPrimCoo[2],yPrimCoo,33,100);
                     break;
             case 3:drawTriangle(xPrimCoo[3], yPrimCoo);
-                    if (flag==3)
+                    if (flag==3 && play.shapeIndex[3]==1)
                         drawTriangleBorder(xPrimCoo[3], yPrimCoo);
                     break;
             case 4:drawHexagon(xPrimCoo[4],yPrimCoo);
-                    if (flag==4)
+                    if (flag==4 && play.shapeIndex[4]==1)
                         drawHexagonBorder(xPrimCoo[4],yPrimCoo);
                     break;
             case 5:drawKite(xPrimCoo[5],yPrimCoo);
-                    if (flag==5)
+                    if (flag==5 && play.shapeIndex[5]==1)
                         drawKiteBorder(xPrimCoo[5],yPrimCoo);
                     break;
         }
