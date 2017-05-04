@@ -76,9 +76,7 @@ int main(int argc, char *argv[])
 
     // Enabling transparency for the color buffer.
     glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    glBlendEquation(GL_MAX);
-
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 
     // enter GLUT event processing cycle/
     glutMainLoop();
