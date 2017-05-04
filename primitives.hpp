@@ -10,6 +10,8 @@ int windowStatus = 0;
 
 int currentLevel = 1;
 
+int placingPrimitives[6] = {0,0,0,0,0,0};
+
 int primitiveColor[6][3] = {{239,83,80},{56,142,60},{33,150,243},{255,152,0},{69,39,160},{255,0,255}};
 // recalculate the centers for the objects.
 void calCenters()
@@ -494,15 +496,31 @@ public:
     {
         // a='r' means result to be displayed in the right side of the screen
         // a='s' means solution to be displayed in the left side of the screen.
-        switch(stat)
+        if(a=='r')
         {
-            case 0:if(play.shapeIndex[0]==1)drawMovSquare(a);break;
-            case 1:if(play.shapeIndex[1]==1)drawMovRectangle(a);break;
-            case 2:if(play.shapeIndex[2]==1)drawMovCircle(a);break;
-            case 3:if(play.shapeIndex[3]==1)drawMovTriangle(a);break;
-            case 4:if(play.shapeIndex[4]==1)drawMovHexagon(a);break;
-            case 5:if(play.shapeIndex[5]==1)drawMovKite(a);break;
+            switch(stat)
+            {
+                case 0:if(play.shapeIndex[0]==1)drawMovSquare(a);break;
+                case 1:if(play.shapeIndex[1]==1)drawMovRectangle(a);break;
+                case 2:if(play.shapeIndex[2]==1)drawMovCircle(a);break;
+                case 3:if(play.shapeIndex[3]==1)drawMovTriangle(a);break;
+                case 4:if(play.shapeIndex[4]==1)drawMovHexagon(a);break;
+                case 5:if(play.shapeIndex[5]==1)drawMovKite(a);break;
+            }
         }
+        else
+        {
+            switch(stat)
+            {
+                case 0:if(play.shapeIndex[0]==1 && placingPrimitives[0]==1)drawMovSquare(a);break;
+                case 1:if(play.shapeIndex[1]==1 && placingPrimitives[1]==1)drawMovRectangle(a);break;
+                case 2:if(play.shapeIndex[2]==1 && placingPrimitives[2]==1)drawMovCircle(a);break;
+                case 3:if(play.shapeIndex[3]==1 && placingPrimitives[3]==1)drawMovTriangle(a);break;
+                case 4:if(play.shapeIndex[4]==1 && placingPrimitives[4]==1)drawMovHexagon(a);break;
+                case 5:if(play.shapeIndex[5]==1 && placingPrimitives[5]==1)drawMovKite(a);break;
+            }
+        }
+
     }
 
 }item;
@@ -619,6 +637,8 @@ void keyboardWindow3(unsigned char key, int x, int y)
             for(int i=0;i<6;i++)
             {
                 mov[i].setDisp(0,0);
+                // reInitializing the selected shapes.
+                placingPrimitives[i]=0;
             }
             // making the selected object back to its default position.
             flag=-1;
@@ -642,12 +662,12 @@ void keyboardWindow3(unsigned char key, int x, int y)
                 winStatus=-1;
             }
             break;
-        case '1':flag=0;break;
-        case '2':flag=1;break;
-        case '3':flag=2;break;
-        case '4':flag=3;break;
-        case '5':flag=4;break;
-        case '6':flag=5;break;
+        case '1':flag=0;placingPrimitives[0]=1;break;
+        case '2':flag=1;placingPrimitives[1]=1;break;
+        case '3':flag=2;placingPrimitives[2]=1;break;
+        case '4':flag=3;placingPrimitives[3]=1;break;
+        case '5':flag=4;placingPrimitives[4]=1;break;
+        case '6':flag=5;placingPrimitives[5]=1;break;
     }
 }
 void specialKeyboardWindow3(int key, int x, int y)
