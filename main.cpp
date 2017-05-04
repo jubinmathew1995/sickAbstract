@@ -25,8 +25,8 @@ static void displayFunction(void);
 static void idleFunction(void);
 static void keyFunction(unsigned char, int, int);
 static void processSpecialKeys(int, int, int);
-static void mouseMove(int, int);
-static void mouseButton(int, int, int, int);
+// static void mouseMove(int, int);
+// static void mouseButton(int, int, int, int);
 
 extern movement mov[6];
 extern level play;
@@ -37,7 +37,7 @@ int main(int argc, char *argv[])
 {
     // init GLUT and create Window
     glutInit(&argc, argv);
-    glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
+    glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE);
     windowWidth = glutGet(GLUT_SCREEN_WIDTH);
     windowHeight = glutGet(GLUT_SCREEN_HEIGHT);
 
@@ -94,7 +94,7 @@ static void ResizeFunction(int width, int height)
 static void displayFunction(void)
 {
     // clear previous colors.
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT);
 
     window3();
 
