@@ -12,7 +12,7 @@ int currentLevel = 1;
 
 int placingPrimitives[6] = {0,0,0,0,0,0};
 
-int primitiveColor[6][3] = {{239,83,80},{56,142,60},{33,150,243},{255,152,0},{69,39,160},{255,0,255}};
+int primitiveColor[6][3] = {{239,83,80},{56,142,60},{33,150,243},{255,152,0},{153,0,0},{255,0,255}};
 // recalculate the centers for the objects.
 void calCenters()
 {
@@ -374,14 +374,14 @@ public:
     {
         int x,y;
         if(a=='s'){
+            chooseColor(primitiveColor[0][0],primitiveColor[0][1],primitiveColor[0][2],play.shapeIndex[0]);
             x = (windowWidth*0.25)+(10.0*mov[0].xMov);
-                y = (windowHeight*0.35)+(10.0*mov[0].yMov);
+            y = (windowHeight*0.35)+(10.0*mov[0].yMov);
         }
         else if(a=='r'){
             x = (windowWidth*0.75)+(10.0*play.disp[0].xMov);
-                y = (windowHeight*0.35)+(10.0*play.disp[0].yMov);
+            y = (windowHeight*0.35)+(10.0*play.disp[0].yMov);
         }
-        chooseColor(primitiveColor[0][0],primitiveColor[0][1],primitiveColor[0][2],play.shapeIndex[0]);
         int num=30;
         glBegin(GL_POLYGON);
             glVertex3f(x-num,y+num,0.0);
@@ -395,6 +395,7 @@ public:
         float x,y;
         int bre=30, len=50;
         if(a=='s'){
+            chooseColor(primitiveColor[1][0],primitiveColor[1][1],primitiveColor[1][2],play.shapeIndex[1]);
             x = (windowWidth*0.25)+(10.0*mov[1].xMov);
                     y = (windowHeight*0.35)+(10.0*mov[1].yMov);
         }
@@ -402,7 +403,6 @@ public:
             x = (windowWidth*0.75)+(10.0*play.disp[1].xMov);
                     y = (windowHeight*0.35)+(10.0*play.disp[1].yMov);
         }
-        chooseColor(primitiveColor[1][0],primitiveColor[1][1],primitiveColor[1][2],play.shapeIndex[1]);
         glBegin(GL_POLYGON);
             glVertex3f(x-len,y+bre,0.0);
             glVertex3f(x+len,y+bre,0.0);
@@ -414,6 +414,7 @@ public:
         float num_segments=300,r=30,cx,cy;
 
         if(a=='s'){
+            chooseColor(primitiveColor[2][0],primitiveColor[2][1],primitiveColor[2][2],play.shapeIndex[2]);
             cx = (windowWidth*0.25)+(10.0*mov[2].xMov);
             cy = (windowHeight*0.35)+(10.0*mov[2].yMov);
         }
@@ -421,7 +422,6 @@ public:
             cx = (windowWidth*0.75)+(10.0*play.disp[2].xMov);
             cy = (+windowHeight*0.35)+(10.0*play.disp[2].yMov);
         }
-        chooseColor(primitiveColor[2][0],primitiveColor[2][1],primitiveColor[2][2],play.shapeIndex[2]);
         glBegin(GL_POLYGON);
         for (int ii = 0; ii < num_segments; ii++)   {
             float theta = 2.0f * 3.1415926f * float(ii) / float(num_segments);//get the current angle
@@ -436,6 +436,7 @@ public:
         int cx,cy;
 
         if(a=='s'){
+            chooseColor(primitiveColor[3][0],primitiveColor[3][1],primitiveColor[3][2],play.shapeIndex[3]);
             cx = (windowWidth*0.25)+(10.0*mov[3].xMov);
             cy = (windowHeight*0.35)+(10.0*mov[3].yMov);
         }
@@ -443,7 +444,6 @@ public:
             cx = (windowWidth*0.75)+(10.0*play.disp[3].xMov);
             cy = (windowHeight*0.35)+(10.0*play.disp[3].yMov);
         }
-        chooseColor(primitiveColor[3][0],primitiveColor[3][1],primitiveColor[3][2],play.shapeIndex[3]);
         glBegin(GL_TRIANGLES);
             glVertex3f(cx,cy+30,0.0);
             glVertex3f(cx-(30*0.8660), cy-(50.0*0.5), 0.0);
@@ -455,6 +455,7 @@ public:
         int x,y;
 
         if(a=='s'){
+            chooseColor(primitiveColor[4][0],primitiveColor[4][1],primitiveColor[4][2],play.shapeIndex[4]);
             x = (windowWidth*0.25)+(10.0*mov[4].xMov);
             y = (windowHeight*0.35)+(10.0*mov[4].yMov);
         }
@@ -462,7 +463,6 @@ public:
             x = (windowWidth*0.75)+(10.0*play.disp[4].xMov);
             y = (windowHeight*0.35)+(10.0*play.disp[4].yMov);
         }
-        chooseColor(primitiveColor[4][0],primitiveColor[4][1],primitiveColor[4][2],play.shapeIndex[4]);
         glBegin(GL_POLYGON);
             glVertex3f(x-30,y,0.0);
             glVertex3f(x-(30*0.5),y+(30*0.8660),0.0);
@@ -477,6 +477,7 @@ public:
         int x,y;
 
         if(a=='s'){
+            chooseColor(primitiveColor[5][0],primitiveColor[5][1],primitiveColor[5][2],play.shapeIndex[5]);
             x = (windowWidth*0.25)+(10.0*mov[5].xMov);
             y = (windowHeight*0.35)+(10.0*mov[5].yMov);
         }
@@ -484,7 +485,7 @@ public:
             x = (windowWidth*0.75)+(10.0*play.disp[5].xMov);
             y = (windowHeight*0.35)+(10.0*play.disp[5].yMov);
         }
-        chooseColor(primitiveColor[5][0],primitiveColor[5][1],primitiveColor[5][2],play.shapeIndex[5]);
+
         glBegin(GL_POLYGON);
             glVertex3f(x,y+30,0.0);
             glVertex3f(x-30,y,0.0);
@@ -498,6 +499,8 @@ public:
         // a='s' means solution to be displayed in the left side of the screen.
         if(a=='r')
         {
+            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+            glColor4ub(255,87,51,255);
             switch(stat)
             {
                 case 0:if(play.shapeIndex[0]==1)drawMovSquare(a);break;
@@ -510,6 +513,7 @@ public:
         }
         else
         {
+            glBlendFunc(GL_SRC_ALPHA, GL_ONE);
             switch(stat)
             {
                 case 0:if(play.shapeIndex[0]==1 && placingPrimitives[0]==1)drawMovSquare(a);break;
