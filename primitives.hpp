@@ -662,12 +662,12 @@ void keyboardWindow3(unsigned char key, int x, int y)
                 winStatus=-1;
             }
             break;
-        case '1':flag=0;placingPrimitives[0]=1;break;
-        case '2':flag=1;placingPrimitives[1]=1;break;
-        case '3':flag=2;placingPrimitives[2]=1;break;
-        case '4':flag=3;placingPrimitives[3]=1;break;
-        case '5':flag=4;placingPrimitives[4]=1;break;
-        case '6':flag=5;placingPrimitives[5]=1;break;
+        case '1':flag=0;if(play.shapeIndex[0]==1)placingPrimitives[0]=1;break;
+        case '2':flag=1;if(play.shapeIndex[1]==1)placingPrimitives[1]=1;break;
+        case '3':flag=2;if(play.shapeIndex[2]==1)placingPrimitives[2]=1;break;
+        case '4':flag=3;if(play.shapeIndex[3]==1)placingPrimitives[3]=1;break;
+        case '5':flag=4;if(play.shapeIndex[4]==1)placingPrimitives[4]=1;break;
+        case '6':flag=5;if(play.shapeIndex[5]==1)placingPrimitives[5]=1;break;
     }
 }
 void specialKeyboardWindow3(int key, int x, int y)
