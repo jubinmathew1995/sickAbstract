@@ -132,58 +132,8 @@ static void processSpecialKeys(int key, int x, int y)
 // static void mouseMove(int x, int y) {
 //     printf("Mouse-Coodinates:(%d,%d)\n",x,y );
 // }
-void processHits (GLint hits, GLuint buffer[])
+
+static void mouseButton(int button, int state, int x, int y)
 {
-   unsigned int i, j;
-   GLuint names, *ptr;
-
-   ptr = (GLuint *) buffer;
-   for (i = 0; i < hits; i++)
-   { /*  for each hit  */
-      names = *ptr;
-      ptr+=3;
-      for (j = 0; j < names; j++)
-      { /*  for each name */
-         //printf ("%d\n",*ptr);
-         flag=*ptr-1;
-         if(play.shapeIndex[flag]==1)placingPrimitives[flag]=1;
-         ptr++;
-      }
-   }
-}
-static void mouseButton(int button, int state, int x, int y) {
-    GLuint selectBuf[SIZE];
-    GLint hits;
-    GLint viewport[4];
-
-    if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN)
-    {
-        glGetIntegerv (GL_VIEWPORT, viewport);
-
-        glSelectBuffer (SIZE, selectBuf);
-        glRenderMode(GL_SELECT);
-
-        glInitNames();
-        glPushName(0);
-
-        glMatrixMode (GL_PROJECTION);
-        glPushMatrix ();
-        glLoadIdentity ();
-        /* create 5x5 pixel picking region near cursor location */
-        gluPickMatrix ((GLdouble) x, (GLdouble) (viewport[3] - y),
-                      5.0, 5.0, viewport);
-        gluOrtho2D (0, windowWidth, 0, windowHeight);
-        window3(GL_SELECT);
-
-
-        glMatrixMode (GL_PROJECTION);
-        glPopMatrix ();
-        glFlush ();
-
-        hits = glRenderMode (GL_RENDER);
-        processHits (hits, selectBuf);
-
-        glutPostRedisplay();
-        glutSwapBuffers();
-    }
+    mouseWindow3(button,state,x,y);
 }

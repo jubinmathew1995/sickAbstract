@@ -179,6 +179,27 @@ public:
     }
 }play;
 
+
+void processHits (GLint hits, GLuint buffer[])
+{
+   unsigned int i, j;
+   GLuint names, *ptr;
+
+   ptr = (GLuint *) buffer;
+   for (i = 0; i < hits; i++)
+   { /*  for each hit  */
+      names = *ptr;
+      ptr+=3;
+      for (j = 0; j < names; j++)
+      { /*  for each name */
+         //printf ("%d\n",*ptr);
+         flag=*ptr-1;
+         if(play.shapeIndex[flag]==1)placingPrimitives[flag]=1;
+         ptr++;
+      }
+   }
+}
+
 class PrimiviteShapes
 {
 public:
@@ -696,4 +717,41 @@ void specialKeyboardWindow3(int key, int x, int y)
                 mov[flag].yMov--;
             break;
 	}
+}
+void mouseWindow3(int button, int state, int x, int y)
+{
+    GLuint selectBuf[SIZE];
+    GLint hits;
+    GLint viewport[4];
+
+    if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN)
+    {
+        glGetIntegerv (GL_VIEWPORT, viewport);
+
+        glSelectBuffer (SIZE, selectBuf);
+        glRenderMode(GL_SELECT);
+
+        glInitNames();
+        glPushName(0);
+
+        glMatrixMode (GL_PROJECTION);
+        glPushMatrix ();
+        glLoadIdentity ();
+        /* create 5x5 pixel picking region near cursor location */
+        gluPickMatrix ((GLdouble) x, (GLdouble) (viewport[3] - y),
+                      5.0, 5.0, viewport);
+        gluOrtho2D (0, windowWidth, 0, windowHeight);
+        window3(GL_SELECT);
+
+
+        glMatrixMode (GL_PROJECTION);
+        glPopMatrix ();
+        glFlush ();
+
+        hits = glRenderMode (GL_RENDER);
+        processHits (hits, selectBuf);
+
+        glutPostRedisplay();
+        glutSwapBuffers();
+    }
 }
