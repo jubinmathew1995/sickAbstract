@@ -26,7 +26,7 @@ static void idleFunction(void);
 static void keyFunction(unsigned char, int, int);
 static void processSpecialKeys(int, int, int);
 // static void mouseMove(int, int);
-// static void mouseButton(int, int, int, int);
+static void mouseButton(int, int, int, int);
 
 extern movement mov[6];
 extern level play;
@@ -66,7 +66,7 @@ int main(int argc, char *argv[])
     glutIdleFunc(idleFunction);
 
     // sets the glut to listen to the mouse actions.
-    // glutMouseFunc(mouseButton);
+    glutMouseFunc(mouseButton);
     // glutMotionFunc(mouseMove);
 
     // sets the background color RED:GREEN:BLUE:ALPHA
@@ -86,6 +86,16 @@ int main(int argc, char *argv[])
 
 static void ResizeFunction(int width, int height)
 {
+    //////////////////////////////////////////////////////
+    ////// NEVER DELETE THIS SECTION - SINCE OBJECT //////
+    ////// SELECTION DOESN'T WORK !!!!!!!!!!!!!!!!! //////
+    glViewport(0, 0, width, height);
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    gluOrtho2D (0, windowWidth, 0, windowHeight);
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+    /////////////////////////////////////////////////////
     glutReshapeWindow(windowWidth,windowHeight);
 }
 
@@ -122,38 +132,58 @@ static void processSpecialKeys(int key, int x, int y)
 // static void mouseMove(int x, int y) {
 //     printf("Mouse-Coodinates:(%d,%d)\n",x,y );
 // }
-//
-// static void mouseButton(int button, int state, int x, int y) {
-//
-// 	// only start motion if the left button is pressed
-// 	if (button == GLUT_LEFT_BUTTON) {
-//
-// 		// when the button is released
-// 		if (state == GLUT_UP) {
-// 			printf("Mouse--LEFT--onKeyUp--(%d,%d)\n",x,y );
-// 		}
-// 		else  {// state = GLUT_DOWN
-//             printf("Mouse--LEFT--onKeyDown--(%d,%d)\n",x,y );
-// 		}
-// 	}
-//     else if (button == GLUT_RIGHT_BUTTON) {
-//
-//         // when the button is released
-//         if (state == GLUT_UP) {
-//             printf("Mouse--RIGHT--onKeyUp--(%d,%d)\n",x,y );
-//         }
-//         else  {// state = GLUT_DOWN
-//             printf("Mouse--RIGHT--onKeyDown--(%d,%d)\n",x,y );
-//         }
-//     }
-//     else {
-//
-//         // when the button is released
-//         if (state == GLUT_UP) {
-//             printf("Mouse--MIDDLE--onKeyUp--(%d,%d)\n",x,y );
-//         }
-//         else  {// state = GLUT_DOWN
-//             printf("Mouse--MIDDLE--onKeyDown--(%d,%d)\n",x,y );
-//         }
-//     }
-// }
+void processHits (GLint hits, GLuint buffer[])
+{
+   unsigned int i, j;
+   GLuint names, *ptr;
+
+   ptr = (GLuint *) buffer;
+   for (i = 0; i < hits; i++)
+   { /*  for each hit  */
+      names = *ptr;
+      ptr+=3;
+      for (j = 0; j < names; j++)
+      { /*  for each name */
+         //printf ("%d\n",*ptr);
+         flag=*ptr-1;
+         if(play.shapeIndex[flag]==1)placingPrimitives[flag]=1;
+         ptr++;
+      }
+   }
+}
+static void mouseButton(int button, int state, int x, int y) {
+    GLuint selectBuf[SIZE];
+    GLint hits;
+    GLint viewport[4];
+
+    if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN)
+    {
+        glGetIntegerv (GL_VIEWPORT, viewport);
+
+        glSelectBuffer (SIZE, selectBuf);
+        glRenderMode(GL_SELECT);
+
+        glInitNames();
+        glPushName(0);
+
+        glMatrixMode (GL_PROJECTION);
+        glPushMatrix ();
+        glLoadIdentity ();
+        /* create 5x5 pixel picking region near cursor location */
+        gluPickMatrix ((GLdouble) x, (GLdouble) (viewport[3] - y),
+                      5.0, 5.0, viewport);
+        gluOrtho2D (0, windowWidth, 0, windowHeight);
+        window3(GL_SELECT);
+
+
+        glMatrixMode (GL_PROJECTION);
+        glPopMatrix ();
+        glFlush ();
+
+        hits = glRenderMode (GL_RENDER);
+        processHits (hits, selectBuf);
+
+        glutPostRedisplay();
+        glutSwapBuffers();
+    }
+}

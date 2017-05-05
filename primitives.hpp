@@ -1,3 +1,4 @@
+#define SIZE 512
 
 int windowWidth = 800,
     windowHeight = 600;
@@ -336,8 +337,9 @@ public:
             glVertex3f(x+33,y,0.0);
         glEnd();
     }
-    void draw(int stat)
+    void draw(int stat,GLenum mode)
     {
+        glLoadName(stat+1);
         switch(stat)
         {
             case 0:drawSquare(xPrimCoo[0],yPrimCoo);
@@ -529,13 +531,13 @@ public:
 
 }item;
 
-void window3()
+void window3(GLenum mode=GL_RENDER)
 {
     // draw the top bar shapes with the specific color with which they are needed.
     for(int i=0;i<6;i++)
     {
         chooseColor(primitiveColor[i][0],primitiveColor[i][1],primitiveColor[i][2],play.shapeIndex[i]);
-        topBar.draw(i);
+        topBar.draw(i,mode);
     }
 
     drawAxes();
