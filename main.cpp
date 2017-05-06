@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <GL/glut.h>
+#include <GL/freeglut.h>
 #include <ctype.h>
 #include <math.h>
 #include "primitives.hpp"
@@ -96,7 +97,7 @@ static void ResizeFunction(int width, int height)
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
     /////////////////////////////////////////////////////
-    glutReshapeWindow(windowWidth,windowHeight);
+    //glutReshapeWindow(windowWidth,windowHeight);
 }
 
 static void displayFunction(void)

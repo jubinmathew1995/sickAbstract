@@ -716,6 +716,7 @@ void specialKeyboardWindow3(int key, int x, int y)
             if(mov[flag].yMov>=-20&&play.shapeIndex[flag]==1)
                 mov[flag].yMov--;
             break;
+        case GLUT_KEY_F11:glutFullScreenToggle();break;
 	}
 }
 void mouseWindow3(int button, int state, int x, int y)
