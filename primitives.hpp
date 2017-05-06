@@ -130,6 +130,7 @@ public:
         char *a=strtok(NULL,":");   // primitive status -atoi
         char *b=strtok(NULL,":");   // hint for the level -str
         char *c=strtok(NULL,":");   // primitive object coodinates -str
+        char *d=strtok(NULL,":");   // number for center object.
         char *innele=strtok(a,",");
         temp = 0;
         while( innele != NULL )
@@ -159,6 +160,9 @@ public:
 
         // set center chape hint.
         strcpy(centerShape,b);
+
+        // setting centerShapeIndex variable of the class level.
+        centerShapeIndex = atoi(d);
     }
 
     void DataExtract(int n)
@@ -675,7 +679,8 @@ void keyboardWindow3(unsigned char key, int x, int y)
             {
                 //printf("%d-->(%d,%d)\n",i,mov[i].xMov,mov[i].yMov);
                 if(play.shapeIndex[i]==1)
-                    if(mov[i].xMov==play.disp[i].xMov && mov[i].yMov==play.disp[i].yMov)
+                    if((mov[i].xMov-mov[play.centerShapeIndex].xMov)==play.disp[i].xMov && 
+                        (mov[i].yMov-mov[play.centerShapeIndex].yMov)==play.disp[i].yMov)
                         count++;
             }
             if(count==play.shapeCount){
