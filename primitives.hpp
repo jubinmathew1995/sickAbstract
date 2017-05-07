@@ -13,6 +13,8 @@ int currentLevel = 1;
 
 int placingPrimitives[6] = {0,0,0,0,0,0};
 
+int boxStatus = 0,windowStatus=1;
+
 int primitiveColor[6][3] = {{239,83,80},{56,142,60},{33,150,243},{255,152,0},{153,0,0},{255,0,255}};
 // recalculate the centers for the objects.
 void calCenters()
@@ -759,5 +761,82 @@ void mouseWindow3(int button, int state, int x, int y)
 
         glutPostRedisplay();
         glutSwapBuffers();
+    }
+}
+void chooseColorWindow(int stat)
+{
+    if(stat==1)
+        glColor4ub(255,87,51,255);
+    else
+        glColor4ub(255,87,51,77);
+
+}
+void draw_rectangle(double xmin,double ymin,double xmax,double ymax)
+{
+
+    glBegin(GL_POLYGON);
+    glVertex2f(xmin,ymin);
+    glVertex2f(xmax,ymin);
+    glVertex2f(xmax,ymax);
+    glVertex2f(xmin,ymax);
+    glEnd();
+
+    glColor4ub(0,0,0,255);
+    glBegin(GL_LINE_LOOP);
+    glVertex2f(xmin-3,ymin-3);
+    glVertex2f(xmax+3,ymin-3);
+    glVertex2f(xmax+3,ymax+3);
+    glVertex2f(xmin-3,ymax+3);
+    glEnd();
+
+
+}
+void window1()
+{
+    //glClearColor(1.0,1.0,1.0,0);
+    if(boxStatus==1)
+        chooseColorWindow(1);
+    else
+        chooseColorWindow(0);
+    draw_rectangle((windowWidth/2)-50,windowHeight-600,(windowWidth/2)+50,windowHeight-570);
+
+    if(boxStatus==2)
+        chooseColorWindow(1);
+    else
+        chooseColorWindow(0);
+
+    draw_rectangle((windowWidth/2)-50,windowHeight-700,(windowWidth/2)+50,windowHeight-670);
+
+    glColor4f(0.0,1.0,0.0,1.0);
+    setFont(GLUT_BITMAP_TIMES_ROMAN_24);
+    drawstring((windowWidth/2)-100,windowHeight-100,0.0,"SICK ABSTRACT!");
+    glBegin(GL_LINES);
+        glVertex2f((windowWidth/2)-100,windowHeight-120);
+        glVertex2f((windowWidth/2)+100,windowHeight-120);
+    glEnd();
+    drawstring((windowWidth/2)-34,windowHeight-595,0.0,"PLAY");
+    drawstring((windowWidth/2)-34,windowHeight-695,0.0,"EXIT");
+}
+void keyboardWindow1(unsigned char key, int x, int y)
+{
+    switch (key)
+    {
+        case 13:
+            if(boxStatus==2)
+                exit(0);
+            else if(boxStatus==1)
+                windowStatus=2;
+            break;
+    }
+}
+void specialKeyboardWindow1(int key, int x, int y)
+{
+    switch (key) {
+        case GLUT_KEY_UP :
+            boxStatus=1;
+            break;
+        case GLUT_KEY_DOWN :
+             boxStatus=2;
+             break;
     }
 }

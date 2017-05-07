@@ -105,8 +105,9 @@ static void displayFunction(void)
     // clear previous colors.
     glClear(GL_COLOR_BUFFER_BIT);
 
-    window3();
+    //window3();
 
+    window1();
     // swaps the front and back buffers.
     glutSwapBuffers();
 }
@@ -121,13 +122,15 @@ static void idleFunction(void)
 
 static void keyFunction(unsigned char key, int x, int y)
 {
-    keyboardWindow3(key,x,y);
+    //keyboardWindow3(key,x,y);
+    keyboardWindow1(key,x,y);
     glutPostRedisplay();
 }
 
 static void processSpecialKeys(int key, int x, int y)
 {
-	specialKeyboardWindow3(key,x,y);
+	// specialKeyboardWindow3(key,x,y);
+    specialKeyboardWindow1(key,x,y);
     glutPostRedisplay();
 }
 // static void mouseMove(int x, int y) {
