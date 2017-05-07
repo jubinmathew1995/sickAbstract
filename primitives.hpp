@@ -1031,17 +1031,17 @@ void specialKeyboardWindow2(int key, int x, int y)
                 i--;}
             break;
         case GLUT_KEY_RIGHT :
-             {if(i<16)
+             {if(i<8)
                  i++;}
              break;
-        case GLUT_KEY_UP :
-            {if(i>=8)
-                i-=8;}
-            break;
-        case GLUT_KEY_DOWN :
-            {if(i<=8)
-                i+=8;}
-            break;
+        // case GLUT_KEY_UP :
+        //     {if(i>=8)
+        //         i-=8;}
+        //     break;
+        // case GLUT_KEY_DOWN :
+        //     {if(i<=8)
+        //         i+=8;}
+        //     break;
         case GLUT_KEY_F11:glutFullScreenToggle();break;
     }
 boxStatus=i;
