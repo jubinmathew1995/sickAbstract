@@ -7,13 +7,13 @@ int yPrimCoo,temp,xPrimCoo[6];
 
 int flag=-1,winStatus=0;
 
-int windowStatus = 0;
+int windowStatus = 1;
 
 int currentLevel = 1;
 
 int placingPrimitives[6] = {0,0,0,0,0,0};
 
-int boxStatus = 0,windowStatus=1;
+int boxStatus = 0,i=1;
 
 int primitiveColor[6][3] = {{239,83,80},{56,142,60},{33,150,243},{255,152,0},{153,0,0},{255,0,255}};
 // recalculate the centers for the objects.
@@ -828,6 +828,7 @@ void keyboardWindow1(unsigned char key, int x, int y)
                 windowStatus=2;
             break;
     }
+    glutPostRedisplay();
 }
 void specialKeyboardWindow1(int key, int x, int y)
 {
@@ -839,4 +840,169 @@ void specialKeyboardWindow1(int key, int x, int y)
              boxStatus=2;
              break;
     }
+    glutPostRedisplay();
+}
+void window2()
+{
+    drawstring((windowWidth/2)-100,windowHeight-100,0.0,"CHOOSE LEVEL!");
+    glBegin(GL_LINES);
+    glVertex2f((windowWidth/2)-100,windowHeight-120);
+    glVertex2f((windowWidth/2)+100,windowHeight-120);
+    glEnd();
+
+
+    if(boxStatus==1)
+    chooseColorWindow(1);
+    else
+    chooseColorWindow(0);
+    draw_rectangle((windowWidth/8)-30,(windowHeight)-205,(windowWidth/8)+30,(windowHeight)-155);
+
+
+    if(boxStatus==2)
+    chooseColorWindow(1);
+    else
+    chooseColorWindow(0);
+    draw_rectangle((windowWidth/8)+120,(windowHeight)-205,(windowWidth/8)+180,(windowHeight)-155);
+
+    if(boxStatus==3)
+    chooseColorWindow(1);
+    else
+    chooseColorWindow(0);
+    draw_rectangle((windowWidth/8)+270,(windowHeight)-205,(windowWidth/8)+330,(windowHeight)-155);
+
+    if(boxStatus==4)
+    chooseColorWindow(1);
+    else
+    chooseColorWindow(0);
+    draw_rectangle((windowWidth/8)+420,(windowHeight)-205,(windowWidth/8)+480,(windowHeight)-155);
+
+    if(boxStatus==5)
+    chooseColorWindow(1);
+    else
+    chooseColorWindow(0);
+    draw_rectangle((windowWidth/8)+570,(windowHeight)-205,(windowWidth/8)+630,(windowHeight)-155);
+
+    if(boxStatus==6)
+    chooseColorWindow(1);
+    else
+    chooseColorWindow(0);
+    draw_rectangle((windowWidth/8)+720,(windowHeight)-205,(windowWidth/8)+780,(windowHeight)-155);
+
+    if(boxStatus==7)
+    chooseColorWindow(1);
+    else
+    chooseColorWindow(0);
+    draw_rectangle((windowWidth/8)+870,(windowHeight)-205,(windowWidth/8)+930,(windowHeight)-155);
+
+    if(boxStatus==8)
+    chooseColorWindow(1);
+    else
+    chooseColorWindow(0);
+    draw_rectangle((windowWidth/8)+1020,(windowHeight)-205,(windowWidth/8)+1080,(windowHeight)-155);
+
+    if(boxStatus==9)
+    chooseColorWindow(1);
+    else
+    chooseColorWindow(0);
+    draw_rectangle((windowWidth/8)-30,(windowHeight)-325,(windowWidth/8)+30,(windowHeight)-275);
+
+    if(boxStatus==10)
+    chooseColorWindow(1);
+    else
+    chooseColorWindow(0);
+    draw_rectangle((windowWidth/8)+120,(windowHeight)-325,(windowWidth/8)+180,(windowHeight)-275);
+
+    if(boxStatus==11)
+    chooseColorWindow(1);
+    else
+    chooseColorWindow(0);
+    draw_rectangle((windowWidth/8)+270,(windowHeight)-325,(windowWidth/8)+330,(windowHeight)-275);
+
+    if(boxStatus==12)
+    chooseColorWindow(1);
+    else
+    chooseColorWindow(0);
+    draw_rectangle((windowWidth/8)+420,(windowHeight)-325,(windowWidth/8)+480,(windowHeight)-275);
+
+    if(boxStatus==13)
+    chooseColorWindow(1);
+    else
+    chooseColorWindow(0);
+    draw_rectangle((windowWidth/8)+570,(windowHeight)-325,(windowWidth/8)+630,(windowHeight)-275);
+
+    if(boxStatus==14)
+    chooseColorWindow(1);
+    else
+    chooseColorWindow(0);
+    draw_rectangle((windowWidth/8)+720,(windowHeight)-325,(windowWidth/8)+780,(windowHeight)-275);
+
+    if(boxStatus==15)
+    chooseColorWindow(1);
+    else
+    chooseColorWindow(0);
+    draw_rectangle((windowWidth/8)+870,(windowHeight)-325,(windowWidth/8)+930,(windowHeight)-275);
+
+    if(boxStatus==16)
+    chooseColorWindow(1);
+    else
+    chooseColorWindow(0);
+    draw_rectangle((windowWidth/8)+1020,(windowHeight)-325,(windowWidth/8)+1080,(windowHeight)-275);
+
+
+
+
+    glColor4ub(0,0,0,255);
+    drawstring((windowWidth/8)-10,windowHeight-190,0.0,"1.");
+    drawstring((windowWidth/8)+140,windowHeight-190,0.0,"2.");
+    drawstring((windowWidth/8)+290,windowHeight-190,0.0,"3.");
+    drawstring((windowWidth/8)+450,windowHeight-190,0.0,"4.");
+    drawstring((windowWidth/8)+590,windowHeight-190,0.0,"5.");
+    drawstring((windowWidth/8)+750,windowHeight-190,0.0,"6.");
+    drawstring((windowWidth/8)+890,windowHeight-190,0.0,"7.");
+    drawstring((windowWidth/8)+1050,windowHeight-190,0.0,"8.");
+    drawstring((windowWidth/8)-10,windowHeight-310,0.0,"9.");
+    drawstring((windowWidth/8)+140,windowHeight-310,0.0,"10.");
+    drawstring((windowWidth/8)+290,windowHeight-310,0.0,"11.");
+    drawstring((windowWidth/8)+450,windowHeight-310,0.0,"12.");
+    drawstring((windowWidth/8)+590,windowHeight-310,0.0,"13.");
+    drawstring((windowWidth/8)+750,windowHeight-310,0.0,"14.");
+    drawstring((windowWidth/8)+890,windowHeight-310,0.0,"15.");
+    drawstring((windowWidth/8)+1050,windowHeight-310,0.0,"16.");
+
+}
+void keyboardWindow2(unsigned char key, int x, int y)
+{
+    switch (key)
+    {
+        case 13:
+            if(boxStatus==2)
+                exit(0);
+            else if(boxStatus==1)
+                windowStatus=2;
+            break;
+    }
+    glutPostRedisplay();
+}
+void specialKeyboardWindow2(int key, int x, int y)
+{
+
+    switch (key) {
+        case GLUT_KEY_LEFT :
+            {if(i>1)
+                i--;}
+            break;
+        case GLUT_KEY_RIGHT :
+             {if(i<16)
+                 i++;}
+             break;
+        case GLUT_KEY_UP :
+            {if(i>=8)
+                i-=8;}
+            break;
+        case GLUT_KEY_DOWN :
+            {if(i<=8)
+                i+=8;}
+            break;
+    }
+boxStatus=i;
 }

@@ -107,7 +107,14 @@ static void displayFunction(void)
 
     //window3();
 
-    window1();
+    if(windowStatus==1)
+    { 
+        window1();
+    }
+    else if(windowStatus==2)
+    {
+        window2();
+    }
     // swaps the front and back buffers.
     glutSwapBuffers();
 }
@@ -123,14 +130,20 @@ static void idleFunction(void)
 static void keyFunction(unsigned char key, int x, int y)
 {
     //keyboardWindow3(key,x,y);
-    keyboardWindow1(key,x,y);
+    if(windowStatus==1)
+        keyboardWindow1(key,x,y);
+    else if(windowStatus==2)
+        keyboardWindow2(key,x,y);
     glutPostRedisplay();
 }
 
 static void processSpecialKeys(int key, int x, int y)
 {
 	// specialKeyboardWindow3(key,x,y);
-    specialKeyboardWindow1(key,x,y);
+    if(windowStatus==1)
+        specialKeyboardWindow1(key,x,y);
+    else if(windowStatus==2)
+        specialKeyboardWindow2(key,x,y);
     glutPostRedisplay();
 }
 // static void mouseMove(int x, int y) {
