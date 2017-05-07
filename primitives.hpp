@@ -979,37 +979,44 @@ void keyboardWindow2(unsigned char key, int x, int y)
             if(boxStatus==1)
             {
                 windowStatus=3;
-                play.selectLevel(1);
+                currentLevel=1;
+                play.selectLevel(currentLevel);
             }
             else if(boxStatus==2)
             {
                 windowStatus=3;
-                play.selectLevel(2);
+                currentLevel=2;
+                play.selectLevel(currentLevel);
             }       
             else if(boxStatus==3)
             {
                 windowStatus=3;
-                play.selectLevel(3);
+                currentLevel=3;
+                play.selectLevel(currentLevel);
             }  
             else if(boxStatus==4)
             {
                 windowStatus=3;
-                play.selectLevel(4);
+                currentLevel=4;
+                play.selectLevel(currentLevel);
             }  
             else if(boxStatus==5)
             {
                 windowStatus=3;
-                play.selectLevel(5);
+                currentLevel=5;
+                play.selectLevel(currentLevel);
             }  
             else if(boxStatus==6)
             {
                 windowStatus=3;
-                play.selectLevel(6);
+                currentLevel=6;
+                play.selectLevel(currentLevel);
             }  
             else if(boxStatus==7)
             {
                 windowStatus=3;
-                play.selectLevel(7);
+                currentLevel=7;
+                play.selectLevel(currentLevel);
             }       
             break;
     }
