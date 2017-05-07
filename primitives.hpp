@@ -839,6 +839,7 @@ void specialKeyboardWindow1(int key, int x, int y)
         case GLUT_KEY_DOWN :
              boxStatus=2;
              break;
+        case GLUT_KEY_F11:glutFullScreenToggle();break;
     }
     glutPostRedisplay();
 }
@@ -900,58 +901,58 @@ void window2()
     chooseColorWindow(0);
     draw_rectangle((windowWidth/8)+1020,(windowHeight)-205,(windowWidth/8)+1080,(windowHeight)-155);
 
-    if(boxStatus==9)
-    chooseColorWindow(1);
-    else
-    chooseColorWindow(0);
-    draw_rectangle((windowWidth/8)-30,(windowHeight)-325,(windowWidth/8)+30,(windowHeight)-275);
+    // if(boxStatus==9)
+    // chooseColorWindow(1);
+    // else
+    // chooseColorWindow(0);
+    // draw_rectangle((windowWidth/8)-30,(windowHeight)-325,(windowWidth/8)+30,(windowHeight)-275);
 
-    if(boxStatus==10)
-    chooseColorWindow(1);
-    else
-    chooseColorWindow(0);
-    draw_rectangle((windowWidth/8)+120,(windowHeight)-325,(windowWidth/8)+180,(windowHeight)-275);
+    // if(boxStatus==10)
+    // chooseColorWindow(1);
+    // else
+    // chooseColorWindow(0);
+    // draw_rectangle((windowWidth/8)+120,(windowHeight)-325,(windowWidth/8)+180,(windowHeight)-275);
 
-    if(boxStatus==11)
-    chooseColorWindow(1);
-    else
-    chooseColorWindow(0);
-    draw_rectangle((windowWidth/8)+270,(windowHeight)-325,(windowWidth/8)+330,(windowHeight)-275);
+    // if(boxStatus==11)
+    // chooseColorWindow(1);
+    // else
+    // chooseColorWindow(0);
+    // draw_rectangle((windowWidth/8)+270,(windowHeight)-325,(windowWidth/8)+330,(windowHeight)-275);
 
-    if(boxStatus==12)
-    chooseColorWindow(1);
-    else
-    chooseColorWindow(0);
-    draw_rectangle((windowWidth/8)+420,(windowHeight)-325,(windowWidth/8)+480,(windowHeight)-275);
+    // if(boxStatus==12)
+    // chooseColorWindow(1);
+    // else
+    // chooseColorWindow(0);
+    // draw_rectangle((windowWidth/8)+420,(windowHeight)-325,(windowWidth/8)+480,(windowHeight)-275);
 
-    if(boxStatus==13)
-    chooseColorWindow(1);
-    else
-    chooseColorWindow(0);
-    draw_rectangle((windowWidth/8)+570,(windowHeight)-325,(windowWidth/8)+630,(windowHeight)-275);
+    // if(boxStatus==13)
+    // chooseColorWindow(1);
+    // else
+    // chooseColorWindow(0);
+    // draw_rectangle((windowWidth/8)+570,(windowHeight)-325,(windowWidth/8)+630,(windowHeight)-275);
 
-    if(boxStatus==14)
-    chooseColorWindow(1);
-    else
-    chooseColorWindow(0);
-    draw_rectangle((windowWidth/8)+720,(windowHeight)-325,(windowWidth/8)+780,(windowHeight)-275);
+    // if(boxStatus==14)
+    // chooseColorWindow(1);
+    // else
+    // chooseColorWindow(0);
+    // draw_rectangle((windowWidth/8)+720,(windowHeight)-325,(windowWidth/8)+780,(windowHeight)-275);
 
-    if(boxStatus==15)
-    chooseColorWindow(1);
-    else
-    chooseColorWindow(0);
-    draw_rectangle((windowWidth/8)+870,(windowHeight)-325,(windowWidth/8)+930,(windowHeight)-275);
+    // if(boxStatus==15)
+    // chooseColorWindow(1);
+    // else
+    // chooseColorWindow(0);
+    // draw_rectangle((windowWidth/8)+870,(windowHeight)-325,(windowWidth/8)+930,(windowHeight)-275);
 
-    if(boxStatus==16)
-    chooseColorWindow(1);
-    else
-    chooseColorWindow(0);
-    draw_rectangle((windowWidth/8)+1020,(windowHeight)-325,(windowWidth/8)+1080,(windowHeight)-275);
-
-
+    // if(boxStatus==16)
+    // chooseColorWindow(1);
+    // else
+    // chooseColorWindow(0);
+    // draw_rectangle((windowWidth/8)+1020,(windowHeight)-325,(windowWidth/8)+1080,(windowHeight)-275);
 
 
-    glColor4ub(0,0,0,255);
+
+
+    glColor4ub(255,255,255,255);
     drawstring((windowWidth/8)-10,windowHeight-190,0.0,"1.");
     drawstring((windowWidth/8)+140,windowHeight-190,0.0,"2.");
     drawstring((windowWidth/8)+290,windowHeight-190,0.0,"3.");
@@ -960,14 +961,14 @@ void window2()
     drawstring((windowWidth/8)+750,windowHeight-190,0.0,"6.");
     drawstring((windowWidth/8)+890,windowHeight-190,0.0,"7.");
     drawstring((windowWidth/8)+1050,windowHeight-190,0.0,"8.");
-    drawstring((windowWidth/8)-10,windowHeight-310,0.0,"9.");
-    drawstring((windowWidth/8)+140,windowHeight-310,0.0,"10.");
-    drawstring((windowWidth/8)+290,windowHeight-310,0.0,"11.");
-    drawstring((windowWidth/8)+450,windowHeight-310,0.0,"12.");
-    drawstring((windowWidth/8)+590,windowHeight-310,0.0,"13.");
-    drawstring((windowWidth/8)+750,windowHeight-310,0.0,"14.");
-    drawstring((windowWidth/8)+890,windowHeight-310,0.0,"15.");
-    drawstring((windowWidth/8)+1050,windowHeight-310,0.0,"16.");
+    // drawstring((windowWidth/8)-10,windowHeight-310,0.0,"9.");
+    // drawstring((windowWidth/8)+140,windowHeight-310,0.0,"10.");
+    // drawstring((windowWidth/8)+290,windowHeight-310,0.0,"11.");
+    // drawstring((windowWidth/8)+450,windowHeight-310,0.0,"12.");
+    // drawstring((windowWidth/8)+590,windowHeight-310,0.0,"13.");
+    // drawstring((windowWidth/8)+750,windowHeight-310,0.0,"14.");
+    // drawstring((windowWidth/8)+890,windowHeight-310,0.0,"15.");
+    // drawstring((windowWidth/8)+1050,windowHeight-310,0.0,"16.");
 
 }
 void keyboardWindow2(unsigned char key, int x, int y)
@@ -975,10 +976,41 @@ void keyboardWindow2(unsigned char key, int x, int y)
     switch (key)
     {
         case 13:
-            if(boxStatus==2)
-                exit(0);
-            else if(boxStatus==1)
-                windowStatus=2;
+            if(boxStatus==1)
+            {
+                windowStatus=3;
+                play.selectLevel(1);
+            }
+            else if(boxStatus==2)
+            {
+                windowStatus=3;
+                play.selectLevel(2);
+            }       
+            else if(boxStatus==3)
+            {
+                windowStatus=3;
+                play.selectLevel(3);
+            }  
+            else if(boxStatus==4)
+            {
+                windowStatus=3;
+                play.selectLevel(4);
+            }  
+            else if(boxStatus==5)
+            {
+                windowStatus=3;
+                play.selectLevel(5);
+            }  
+            else if(boxStatus==6)
+            {
+                windowStatus=3;
+                play.selectLevel(6);
+            }  
+            else if(boxStatus==7)
+            {
+                windowStatus=3;
+                play.selectLevel(7);
+            }       
             break;
     }
     glutPostRedisplay();
@@ -1003,6 +1035,7 @@ void specialKeyboardWindow2(int key, int x, int y)
             {if(i<=8)
                 i+=8;}
             break;
+        case GLUT_KEY_F11:glutFullScreenToggle();break;
     }
 boxStatus=i;
 }

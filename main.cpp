@@ -72,12 +72,14 @@ int main(int argc, char *argv[])
 
     // sets the background color RED:GREEN:BLUE:ALPHA
     glClearColor((23.0/255),(32.0/255),(42.0/255),0);
+    // glClearColor(1.0,1.0,1.0,1);
 
     gluOrtho2D(0,windowWidth,0,windowHeight);
 
     // Enabling transparency for the color buffer.
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+    //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     // enter GLUT event processing cycle/
     glutMainLoop();
@@ -105,16 +107,13 @@ static void displayFunction(void)
     // clear previous colors.
     glClear(GL_COLOR_BUFFER_BIT);
 
-    //window3();
-
     if(windowStatus==1)
-    { 
         window1();
-    }
     else if(windowStatus==2)
-    {
         window2();
-    }
+    else if(windowStatus==3)
+        window3();
+    
     // swaps the front and back buffers.
     glutSwapBuffers();
 }
@@ -129,21 +128,25 @@ static void idleFunction(void)
 
 static void keyFunction(unsigned char key, int x, int y)
 {
-    //keyboardWindow3(key,x,y);
     if(windowStatus==1)
         keyboardWindow1(key,x,y);
     else if(windowStatus==2)
         keyboardWindow2(key,x,y);
+    else if(windowStatus==3)
+        keyboardWindow3(key,x,y);
+
     glutPostRedisplay();
 }
 
 static void processSpecialKeys(int key, int x, int y)
 {
-	// specialKeyboardWindow3(key,x,y);
     if(windowStatus==1)
         specialKeyboardWindow1(key,x,y);
     else if(windowStatus==2)
         specialKeyboardWindow2(key,x,y);
+    else if(windowStatus==3)
+        specialKeyboardWindow3(key,x,y);
+
     glutPostRedisplay();
 }
 // static void mouseMove(int x, int y) {
@@ -152,5 +155,6 @@ static void processSpecialKeys(int key, int x, int y)
 
 static void mouseButton(int button, int state, int x, int y)
 {
-    mouseWindow3(button,state,x,y);
+    if(windowStatus==3)
+        mouseWindow3(button,state,x,y);
 }
