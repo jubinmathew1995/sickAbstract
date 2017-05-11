@@ -15,6 +15,8 @@ int placingPrimitives[6] = {0,0,0,0,0,0};
 
 int boxStatus = 0,i=1;
 
+int gameFinish = 0;
+
 int primitiveColor[6][3] = {{239,83,80},{56,142,60},{33,150,243},{255,152,0},{153,0,0},{255,0,255}};
 // recalculate the centers for the objects.
 void calCenters()
@@ -991,11 +993,11 @@ void window2()
     chooseColorWindow(0);
     draw_rectangle((windowWidth/8)+870,(windowHeight)-205,(windowWidth/8)+930,(windowHeight)-155);
 
-    if(boxStatus==8)
-    chooseColorWindow(1);
-    else
-    chooseColorWindow(0);
-    draw_rectangle((windowWidth/8)+1020,(windowHeight)-205,(windowWidth/8)+1080,(windowHeight)-155);
+    // if(boxStatus==8)
+    // chooseColorWindow(1);
+    // else
+    // chooseColorWindow(0);
+    // draw_rectangle((windowWidth/8)+1020,(windowHeight)-205,(windowWidth/8)+1080,(windowHeight)-155);
 
     // if(boxStatus==9)
     // chooseColorWindow(1);
@@ -1056,7 +1058,7 @@ void window2()
     drawstring((windowWidth/8)+590,windowHeight-190,0.0,"5.");
     drawstring((windowWidth/8)+750,windowHeight-190,0.0,"6.");
     drawstring((windowWidth/8)+890,windowHeight-190,0.0,"7.");
-    drawstring((windowWidth/8)+1050,windowHeight-190,0.0,"8.");
+    // drawstring((windowWidth/8)+1050,windowHeight-190,0.0,"8.");
     // drawstring((windowWidth/8)-10,windowHeight-310,0.0,"9.");
     // drawstring((windowWidth/8)+140,windowHeight-310,0.0,"10.");
     // drawstring((windowWidth/8)+290,windowHeight-310,0.0,"11.");
