@@ -827,6 +827,10 @@ void keyboardWindow1(unsigned char key, int x, int y)
             else if(boxStatus==1)
                 windowStatus=2;
             break;
+        case 27 :
+        case 'q':
+            exit(0);
+            break;
     }
     glutPostRedisplay();
 }
@@ -1018,6 +1022,10 @@ void keyboardWindow2(unsigned char key, int x, int y)
                 currentLevel=7;
                 play.selectLevel(currentLevel);
             }       
+            break;
+        case 27 :
+        case 'q':
+            exit(0);
             break;
     }
     glutPostRedisplay();
