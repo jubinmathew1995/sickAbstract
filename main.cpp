@@ -116,6 +116,8 @@ static void displayFunction(void)
         window2();
     else if(windowStatus==3)
         window3();
+    else if(windowStatus == 4)
+        window4();
     
     // swaps the front and back buffers.
     glutSwapBuffers();
@@ -137,6 +139,8 @@ static void keyFunction(unsigned char key, int x, int y)
         keyboardWindow2(key,x,y);
     else if(windowStatus==3)
         keyboardWindow3(key,x,y);
+    else if(windowStatus==4)
+        keyboardWindow4(key,x,y);
 
     glutPostRedisplay();
 }
@@ -149,6 +153,8 @@ static void processSpecialKeys(int key, int x, int y)
         specialKeyboardWindow2(key,x,y);
     else if(windowStatus==3)
         specialKeyboardWindow3(key,x,y);
+    else if(windowStatus==4)
+        specialKeyboardWindow4(key,x,y);
 
     glutPostRedisplay();
 }

@@ -206,6 +206,9 @@ void processHits (GLint hits, GLuint buffer[])
             // if the player clear this level then in 'n'/'N'
             // we have to jump into the next level.
             currentLevel++;
+            if(currentLevel > 7 ){
+                windowStatus = 4;
+            }
             // reset the winStatus to initial before going to new level.
             winStatus=0;
             // load the data of the new level.
@@ -755,6 +758,11 @@ void keyboardWindow3(unsigned char key, int x, int y)
             // if the player clear this level then in 'n'/'N'
             // we have to jump into the next level.
             currentLevel++;
+            // if the game is in the final level and its already won
+            // then make the screem to game finish.
+            if(currentLevel > 7 ){
+                windowStatus = 4;
+            }
             // reset the winStatus to initial before going to new level.
             winStatus=0;
             // load the data of the new level.
@@ -1146,5 +1154,28 @@ void specialKeyboardWindow2(int key, int x, int y)
         //     break;
         case GLUT_KEY_F11:glutFullScreenToggle();break;
     }
-boxStatus=i;
+    boxStatus=i;
+}
+void window4()
+{
+    glColor4ub(255,255,255,255);
+    drawstring((windowWidth/2-80),windowHeight/2,0.0,"Congragulations Game Completed !");
+}
+void keyboardWindow4(unsigned char key, int x, int y)
+{
+    switch (key)
+    {
+        case 27 :
+        case 'q':
+            exit(0);
+            break;
+    }
+    glutPostRedisplay();
+}
+void specialKeyboardWindow4(int key, int x, int y)
+{
+
+    switch (key) {
+        case GLUT_KEY_F11:glutFullScreenToggle();break;
+    }
 }
