@@ -20,6 +20,8 @@ extern void *currentfont;
 
 extern int windowStatus;
 
+extern int gameFinish;
+
 // function prototype
 static void ResizeFunction(int, int);
 static void displayFunction(void);
@@ -74,6 +76,7 @@ int main(int argc, char *argv[])
     glClearColor((23.0/255),(32.0/255),(42.0/255),0);
     // glClearColor(1.0,1.0,1.0,1);
 
+    glutFullScreen();
     gluOrtho2D(0,windowWidth,0,windowHeight);
 
     // Enabling transparency for the color buffer.
