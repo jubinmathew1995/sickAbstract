@@ -198,7 +198,45 @@ void processHits (GLint hits, GLuint buffer[])
       ptr+=3;
       for (j = 0; j < names; j++)
       { /*  for each name */
-         //printf ("%d\n",*ptr);
+         // printf ("%d\n",*ptr);
+         if( *ptr == 8 )
+         {
+            // if the player clear this level then in 'n'/'N'
+            // we have to jump into the next level.
+            currentLevel++;
+            // reset the winStatus to initial before going to new level.
+            winStatus=0;
+            // load the data of the new level.
+            play.selectLevel(currentLevel);
+            // Resetting the displacement of each of the primitives to
+            // their actual value.
+            for(int i=0;i<6;i++)
+            {
+                mov[i].setDisp(0,0);
+                // reInitializing the selected shapes.
+                placingPrimitives[i]=0;
+            }
+            // making the selected object back to its default position.
+            flag=-1;
+            break;
+         }
+         else if( *ptr == 7 )
+         {
+            // reset the winStatus to initial before going to new level.
+            winStatus=0;
+            // Resetting the displacement of each of the primitives to
+            // their actual value.
+            for(int i=0;i<6;i++)
+            {
+                mov[i].setDisp(0,0);
+                // reInitializing the selected shapes.
+                placingPrimitives[i]=0;
+            }
+            // making the selected object back to its default position.
+            flag=-1;
+            windowStatus = 2;
+            break;
+         }
          flag=*ptr-1;
          if(play.shapeIndex[flag]==1)placingPrimitives[flag]=1;
          ptr++;
@@ -558,6 +596,18 @@ public:
 
 }item;
 
+void drawTextBox(int x,int y)
+{
+    int bre=30, len=100;
+
+    glBegin(GL_POLYGON);
+        glVertex3f(x-len,y+bre,0.0);
+        glVertex3f(x+len,y+bre,0.0);
+        glVertex3f(x+len,y-bre,0.0);
+        glVertex3f(x-len,y-bre,0.0);
+    glEnd();
+}
+
 void window3(GLenum mode=GL_RENDER)
 {
     // draw the top bar shapes with the specific color with which they are needed.
@@ -588,12 +638,38 @@ void window3(GLenum mode=GL_RENDER)
         glColor4f(0.0,1.0,0.0,1.0);
         setFont(GLUT_BITMAP_HELVETICA_18);
         char name[]="Great! Level Cleared";
-        drawstring((3*windowWidth/4-80),(windowHeight*0.08),0.0,name);
+        drawstring((3*windowWidth/4-80),(windowHeight*0.12),0.0,name);
 
-        glColor4f(1.0,1.0,1.0,1.0);
+        // if(mode == GL_SELECT)
+        // {
+        //     // box for choose level.
+        //     glColor4f(1.0,1.0,0.0,1.0);
+        //     drawTextBox((3*windowWidth/4-120),(windowHeight*0.05));
+        //     // box for next level.
+        //     glColor4f(0.0,1.0,0.0,1.0);
+        //     drawTextBox((3*windowWidth/4+120),(windowHeight*0.05));
+        // }
+        // else
+        // {
+            // box for choose level.
+            glColor4f(1.0,1.0,0.0,1.0);
+            glLoadName(7);
+            drawTextBox((3*windowWidth/4-120),(windowHeight*0.05));
+            // box for next level.
+            glColor4f(0.0,1.0,0.0,1.0);
+            glLoadName(8);
+            drawTextBox((3*windowWidth/4+120),(windowHeight*0.05));
+        // }
+
+        glColor4f(0.0,0.0,0.0,1.0);
+
         setFont(GLUT_BITMAP_HELVETICA_18);
-        char name1[]="Press n to jump to next level.";
-        drawstring((3*windowWidth/4-100),(windowHeight*0.03),0.0,name1);
+        char name1[]="Next level (Press N)";
+        drawstring((3*windowWidth/4+45),(windowHeight*0.04),0.0,name1);
+
+        setFont(GLUT_BITMAP_HELVETICA_18);
+        char name2[]="Select level (Press L)";
+        drawstring((3*windowWidth/4-200),(windowHeight*0.04),0.0,name2);
     }
     if(winStatus==-1){
         glColor4f(1.0,0.0,0.0,1.0);
@@ -656,6 +732,22 @@ void keyboardWindow3(unsigned char key, int x, int y)
             if(mov[flag].xMov<=20&&play.shapeIndex[flag]==1)
                 mov[flag].xMov++;
             break;
+        case 'l':
+        case 'L':
+            // reset the winStatus to initial before going to new level.
+            winStatus=0;
+            // Resetting the displacement of each of the primitives to
+            // their actual value.
+            for(int i=0;i<6;i++)
+            {
+                mov[i].setDisp(0,0);
+                // reInitializing the selected shapes.
+                placingPrimitives[i]=0;
+            }
+            // making the selected object back to its default position.
+            flag=-1;
+            windowStatus = 2;
+            break;    
         case 'n':
         case 'N':
             // if the player clear this level then in 'n'/'N'
@@ -781,13 +873,13 @@ void draw_rectangle(double xmin,double ymin,double xmax,double ymax)
     glVertex2f(xmin,ymax);
     glEnd();
 
-    glColor4ub(0,0,0,255);
-    glBegin(GL_LINE_LOOP);
-    glVertex2f(xmin-3,ymin-3);
-    glVertex2f(xmax+3,ymin-3);
-    glVertex2f(xmax+3,ymax+3);
-    glVertex2f(xmin-3,ymax+3);
-    glEnd();
+    // glColor4f(0.0,0.0,0.0,1.0);
+    // glBegin(GL_LINE_LOOP);
+    // glVertex2f(xmin-3,ymin-3);
+    // glVertex2f(xmax+3,ymin-3);
+    // glVertex2f(xmax+3,ymax+3);
+    // glVertex2f(xmin-3,ymax+3);
+    // glEnd();
 
 
 }
