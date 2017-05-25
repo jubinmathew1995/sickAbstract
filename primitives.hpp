@@ -20,8 +20,9 @@ int gameFinish = 0;
 struct timespec tstart={0,0}, tmid={0,0}, tend={0,0};
 double tempTime;
 
-int numberOfTries = 0,
-    difficulty = 0;
+int numberOfTries = 3,
+    difficulty = 3;
+char triesString[17];
 
 int primitiveColor[6][3] = {{239,83,80},{56,142,60},{33,150,243},{255,152,0},{153,0,0},{255,0,255}};
 // recalculate the centers for the objects.
@@ -639,6 +640,22 @@ void window3(GLenum mode=GL_RENDER)
     // setFont(GLUT_BITMAP_HELVETICA_18);
     // drawstring((windowWidth/4-100),(windowHeight*0.03),0.0,play.centerShape);
 
+    // Display difficulty for the game.
+    setFont(GLUT_BITMAP_HELVETICA_18);
+    if(difficulty == 3){
+      glColor4f(0,1,0,1);
+      drawstring((windowWidth/10),(windowHeight*0.03),0.0,"EASY");}
+    else if(difficulty == 2){
+      glColor4f(1,1,0,1);
+      drawstring((windowWidth/10),(windowHeight*0.03),0.0,"MEDIUM");}
+    else if(difficulty == 1){
+      glColor4f(1,0,0,1);
+      drawstring((windowWidth/10),(windowHeight*0.03),0.0,"HARD");}
+
+    sprintf(triesString,"Remaning tries %d",numberOfTries);
+    drawstring((3.4*windowWidth/10),(windowHeight*0.03),0.0,triesString);
+
+    glColor4ub(255,87,51,255);
     // running timer.
     clock_gettime(CLOCK_MONOTONIC, &tmid);
     if(winStatus == 0)
@@ -797,16 +814,16 @@ void keyboardWindow3(unsigned char key, int x, int y)
               }
               // making the selected object back to its default position.
               flag=-1;
+              // Resetting the number of tries to default values.
+              switch(difficulty){
+                case 3: numberOfTries = 3;break;
+                case 2: numberOfTries = 2;break;
+                case 1: numberOfTries = 1;break;
+              }
               break;
             }
             break;
         case 13: // when enter is pressed.
-            numberOfTries++;
-            if(numberOfTries == 3 && winStatus != 1)
-                windowStatus = 5;
-
-            if(winStatus != 1)
-                clock_gettime(CLOCK_MONOTONIC, &tend);
             for(int i=0;i<6;i++)
             {
                 //printf("%d-->(%d,%d)\n",i,mov[i].xMov,mov[i].yMov);
@@ -825,6 +842,13 @@ void keyboardWindow3(unsigned char key, int x, int y)
                 //printf("loose\n");
                 winStatus=-1;
             }
+            if(numberOfTries>0 && winStatus != 1)
+              numberOfTries--;
+            if(numberOfTries == 0 && winStatus != 1)
+                windowStatus = 5;
+
+            if(winStatus != 1)
+                clock_gettime(CLOCK_MONOTONIC, &tend);
             break;
         case '1':flag=0;if(play.shapeIndex[0]==1)placingPrimitives[0]=1;break;
         case '2':flag=1;if(play.shapeIndex[1]==1)placingPrimitives[1]=1;break;

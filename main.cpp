@@ -120,9 +120,9 @@ void menu(int item)
 {
         switch (item)
         {
-        case GAME_EASY:	printf("easy\n" );break;
-        case GAME_MEDIUM:printf("medium\n");break;
-        case GAME_HARD:printf("difficult\n" );break;
+          case GAME_EASY:	if(winStatus==1||windowStatus!=3){difficulty = 3; numberOfTries = 3;} break;
+          case GAME_MEDIUM: if(winStatus==1||windowStatus!=3){difficulty = 2; numberOfTries = 2;} break;
+          case GAME_HARD: if(winStatus==1||windowStatus!=3){difficulty = 1; numberOfTries = 1;} break;
         }
 
         glutPostRedisplay();
