@@ -20,6 +20,9 @@ int gameFinish = 0;
 struct timespec tstart={0,0}, tmid={0,0}, tend={0,0};
 double tempTime;
 
+int numberOfTries = 0,
+    difficulty = 0;
+
 int primitiveColor[6][3] = {{239,83,80},{56,142,60},{33,150,243},{255,152,0},{153,0,0},{255,0,255}};
 // recalculate the centers for the objects.
 void calCenters()
@@ -798,7 +801,12 @@ void keyboardWindow3(unsigned char key, int x, int y)
             }
             break;
         case 13: // when enter is pressed.
-            clock_gettime(CLOCK_MONOTONIC, &tend);
+            numberOfTries++;
+            if(numberOfTries == 3 && winStatus != 1)
+                windowStatus = 5;
+
+            if(winStatus != 1)
+                clock_gettime(CLOCK_MONOTONIC, &tend);
             for(int i=0;i<6;i++)
             {
                 //printf("%d-->(%d,%d)\n",i,mov[i].xMov,mov[i].yMov);
@@ -1194,6 +1202,29 @@ void keyboardWindow4(unsigned char key, int x, int y)
     glutPostRedisplay();
 }
 void specialKeyboardWindow4(int key, int x, int y)
+{
+
+    switch (key) {
+        case GLUT_KEY_F11:glutFullScreenToggle();break;
+    }
+}
+void window5()
+{
+    glColor4ub(255,0,0,255);
+    drawstring((windowWidth/2-80),windowHeight/2,0.0,"Game Over !");
+}
+void keyboardWindow5(unsigned char key, int x, int y)
+{
+    switch (key)
+    {
+        case 27 :
+        case 'q':
+            exit(0);
+            break;
+    }
+    glutPostRedisplay();
+}
+void specialKeyboardWindow5(int key, int x, int y)
 {
 
     switch (key) {
