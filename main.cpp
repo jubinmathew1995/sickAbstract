@@ -23,6 +23,20 @@ extern int windowStatus;
 
 extern int gameFinish;
 
+// Menu items
+enum MENU_TYPE
+{
+        GAME_EASY,
+        GAME_MEDIUM,
+        GAME_HARD,
+};
+
+// Assign a default value
+MENU_TYPE show = GAME_EASY;
+
+// Menu handling function declaration
+void menu(int);
+
 // function prototype
 static void ResizeFunction(int, int);
 static void displayFunction(void);
@@ -73,6 +87,16 @@ int main(int argc, char *argv[])
     glutMouseFunc(mouseButton);
     // glutMotionFunc(mouseMove);
 
+    glutCreateMenu(menu);
+
+  	// Add menu items
+  	glutAddMenuEntry("Easy", GAME_EASY);
+  	glutAddMenuEntry("Medium", GAME_MEDIUM);
+  	glutAddMenuEntry("Hard", GAME_HARD);
+
+  	// Associate a mouse button with menu
+  	glutAttachMenu(GLUT_RIGHT_BUTTON);
+
     // sets the background color RED:GREEN:BLUE:ALPHA
     glClearColor((23.0/255),(32.0/255),(42.0/255),0);
     // glClearColor(1.0,1.0,1.0,1);
@@ -90,6 +114,22 @@ int main(int argc, char *argv[])
 
     return 1;
 }
+
+// Menu handling function definition
+void menu(int item)
+{
+        switch (item)
+        {
+        case GAME_EASY:	printf("easy\n" );break;
+        case GAME_MEDIUM:printf("medium\n");break;
+        case GAME_HARD:printf("difficult\n" );break;
+        }
+
+        glutPostRedisplay();
+
+        return;
+}
+
 
 static void ResizeFunction(int width, int height)
 {
