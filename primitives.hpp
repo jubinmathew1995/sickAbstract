@@ -752,38 +752,43 @@ void keyboardWindow3(unsigned char key, int x, int y)
             // making the selected object back to its default position.
             flag=-1;
             windowStatus = 2;
-            break;    
+            break;
         case 'n':
         case 'N':
-            // if the player clear this level then in 'n'/'N'
-            // we have to jump into the next level.
-            currentLevel++;
-            // if the game is in the final level and its already won
-            // then make the screem to game finish.
-            if(currentLevel > 7 ){
-                windowStatus = 4;
+            // this if statement make sure that it should jump to next level
+            // only when the currentLevel is cleared.
+            if (winStatus == 1) {
+              // if the player clear this level then in 'n'/'N'
+              // we have to jump into the next level.
+              currentLevel++;
+              // if the game is in the final level and its already won
+              // then make the screem to game finish.
+              if(currentLevel > 7 ){
+                  windowStatus = 4;
+              }
+              // reset the winStatus to initial before going to new level.
+              winStatus=0;
+              // load the data of the new level.
+              play.selectLevel(currentLevel);
+              // Resetting the displacement of each of the primitives to
+              // their actual value.
+              for(int i=0;i<6;i++)
+              {
+                  mov[i].setDisp(0,0);
+                  // reInitializing the selected shapes.
+                  placingPrimitives[i]=0;
+              }
+              // making the selected object back to its default position.
+              flag=-1;
+              break;
             }
-            // reset the winStatus to initial before going to new level.
-            winStatus=0;
-            // load the data of the new level.
-            play.selectLevel(currentLevel);
-            // Resetting the displacement of each of the primitives to
-            // their actual value.
-            for(int i=0;i<6;i++)
-            {
-                mov[i].setDisp(0,0);
-                // reInitializing the selected shapes.
-                placingPrimitives[i]=0;
-            }
-            // making the selected object back to its default position.
-            flag=-1;
             break;
         case 13: // when enter is pressed.
             for(int i=0;i<6;i++)
             {
                 //printf("%d-->(%d,%d)\n",i,mov[i].xMov,mov[i].yMov);
                 if(play.shapeIndex[i]==1)
-                    if((mov[i].xMov-mov[play.centerShapeIndex].xMov)==play.disp[i].xMov && 
+                    if((mov[i].xMov-mov[play.centerShapeIndex].xMov)==play.disp[i].xMov &&
                         (mov[i].yMov-mov[play.centerShapeIndex].yMov)==play.disp[i].yMov)
                         count++;
             }
@@ -1093,37 +1098,37 @@ void keyboardWindow2(unsigned char key, int x, int y)
                 windowStatus=3;
                 currentLevel=2;
                 play.selectLevel(currentLevel);
-            }       
+            }
             else if(boxStatus==3)
             {
                 windowStatus=3;
                 currentLevel=3;
                 play.selectLevel(currentLevel);
-            }  
+            }
             else if(boxStatus==4)
             {
                 windowStatus=3;
                 currentLevel=4;
                 play.selectLevel(currentLevel);
-            }  
+            }
             else if(boxStatus==5)
             {
                 windowStatus=3;
                 currentLevel=5;
                 play.selectLevel(currentLevel);
-            }  
+            }
             else if(boxStatus==6)
             {
                 windowStatus=3;
                 currentLevel=6;
                 play.selectLevel(currentLevel);
-            }  
+            }
             else if(boxStatus==7)
             {
                 windowStatus=3;
                 currentLevel=7;
                 play.selectLevel(currentLevel);
-            }       
+            }
             break;
         case 27 :
         case 'q':
