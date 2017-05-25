@@ -5,6 +5,7 @@
 #include <GL/freeglut.h>
 #include <ctype.h>
 #include <math.h>
+#include <time.h>
 #include "primitives.hpp"
 
 // window TITLE, WIDTH and HEIGHT
@@ -118,7 +119,7 @@ static void displayFunction(void)
         window3();
     else if(windowStatus == 4)
         window4();
-    
+
     // swaps the front and back buffers.
     glutSwapBuffers();
 }
