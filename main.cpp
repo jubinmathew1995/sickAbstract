@@ -3,10 +3,11 @@
 #include <string.h>
 #include <GL/glut.h>
 #include <GL/freeglut.h>
+#include <GL/glext.h>
 #include <ctype.h>
 #include <math.h>
-#include <time.h>
 #include "primitives.hpp"
+#include "windows.hpp"
 
 // window TITLE, WIDTH and HEIGHT
 #define WINDOW_TITLE_PREFIX "Sick Abstract"
@@ -120,9 +121,9 @@ void menu(int item)
 {
         switch (item)
         {
-          case GAME_EASY:	if(winStatus==1||windowStatus!=3){difficulty = 3; numberOfTries = 3;} break;
-          case GAME_MEDIUM: if(winStatus==1||windowStatus!=3){difficulty = 2; numberOfTries = 2;} break;
-          case GAME_HARD: if(winStatus==1||windowStatus!=3){difficulty = 1; numberOfTries = 1;} break;
+          case GAME_EASY:	if(windowStatus!=3){difficulty = 3; numberOfTries = 3;} break;
+          case GAME_MEDIUM: if(windowStatus!=3){difficulty = 2; numberOfTries = 2;} break;
+          case GAME_HARD: if(windowStatus!=3){difficulty = 1; numberOfTries = 1;} break;
         }
 
         glutPostRedisplay();
@@ -204,9 +205,6 @@ static void processSpecialKeys(int key, int x, int y)
         specialKeyboardWindow5(key,x,y);
     glutPostRedisplay();
 }
-// static void mouseMove(int x, int y) {
-//     printf("Mouse-Coodinates:(%d,%d)\n",x,y );
-// }
 
 static void mouseButton(int button, int state, int x, int y)
 {
