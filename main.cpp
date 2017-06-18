@@ -52,8 +52,22 @@ extern level play;
 extern PrimiviteShapes topBar;
 extern PrimiviteMovShapes item;
 
+void printInstructions() {
+    printf("\n*********SICK ABSTRACT **********\n\n\n1. For navigating throught the menu use the ARROW keys and ENTER key.");
+    printf("\n\n2. For selecting a object use the corresponding label number of the specified for the object.");
+    printf("\n\n3. Objects can also be selected using mouse click, just point at the object and left click.");
+    printf("\n\n4. For movement of the object use the ARROW keys or the, 'w','a','s'&'d' keys");
+    printf("\n\n5. For checking the correctness of the object just Press Enter key.");
+    printf("\n\n6. If user cleared any level just press the 'N' key to jump to the next level.");
+    printf("\n\n7. If user cleared any level, press 'L' to jump to level select window.");
+    printf("\n\n8. In any screen if user wants to QUIT just press 'q'or 'esc'.");
+    printf("\n\n******** PRESS ENTER TO CONTINUE *********");
+}
 int main(int argc, char *argv[])
 {
+    char temp;
+    printInstructions();
+    temp = getchar();
     // init GLUT and create Window
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE);

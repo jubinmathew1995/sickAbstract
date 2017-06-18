@@ -15,8 +15,6 @@ int placingPrimitives[6] = {0,0,0,0,0,0};
 
 int boxStatus = 0,i=1;
 
-int gameFinish = 0;
-
 int numberOfTries = 3,
     difficulty = 3;
 char triesString[17];
@@ -104,11 +102,7 @@ void drawGrid()
 
 void chooseColor(int r,int g,int b,int stat)
 {
-    //if(stat==1)
-        glColor4ub(r,g,b,255);
-    //else
-        //glColor4ub(61,61,61,255);
-
+    glColor4ub(r,g,b,255);
 }
 
 void drawTextBox(int x,int y)
@@ -138,6 +132,16 @@ void draw_rectangle(double xmin,double ymin,double xmax,double ymax)
     glVertex2f(xmax,ymin);
     glVertex2f(xmax,ymax);
     glVertex2f(xmin,ymax);
+    glEnd();
+}
+void drawWindow2Square(int x,int y)
+{
+    int num=30;
+    glBegin(GL_POLYGON);
+        glVertex3f(x-20,y+35,0.0);
+        glVertex3f(x+35,y+35,0.0);
+        glVertex3f(x+35,y-20,0.0);
+        glVertex3f(x-20,y-20,0.0);
     glEnd();
 }
 // movement global variables.
@@ -616,4 +620,20 @@ void processHits (GLint hits, GLuint buffer[])
          ptr++;
       }
    }
+}
+void resetParameters() {
+    // reset the winStatus to initial before going to new level.
+    winStatus=0;
+
+    // Resetting the displacement of each of the primitives to
+    // their actual value.
+    for(int i=0;i<6;i++) {
+        // setting the displacement to center.
+        mov[i].setDisp(0,0);
+        // reInitializing the selected shapes.
+        placingPrimitives[i]=0;
+    }                             
+
+    // removing the previous active object.
+    flag=-1;                                    
 }

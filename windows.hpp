@@ -107,45 +107,34 @@ void keyboardWindow3(unsigned char key, int x, int y)
         case 'w':
         // play.shapeIndex[flag] is used to ensure only the
         // figure available is moved nothing else.
-            if(mov[flag].yMov<=20&&play.shapeIndex[flag]==1)
+            if(mov[flag].yMov<=20)
                 mov[flag].yMov++;
             break;
         case 'S':
         case 's':
         // play.shapeIndex[flag] is used to ensure only the
         // figure available is moved nothing else.
-            if(mov[flag].yMov>=-20&&play.shapeIndex[flag]==1)
+            if(mov[flag].yMov>=-20)
                 mov[flag].yMov--;
             break;
         case 'A':
         case 'a':
         // play.shapeIndex[flag] is used to ensure only the
         // figure available is moved nothing else.
-            if(mov[flag].xMov>=-20&&play.shapeIndex[flag]==1)
+            if(mov[flag].xMov>=-20)
                 mov[flag].xMov--;
             break;
         case 'D':
         case 'd':
             // play.shapeIndex[flag] is used to ensure only the
             // figure available is moved nothing else.
-            if(mov[flag].xMov<=20&&play.shapeIndex[flag]==1)
+            if(mov[flag].xMov<=20)
                 mov[flag].xMov++;
             break;
         case 'l':
         case 'L':
             if(winStatus == 1){
-                // reset the winStatus to initial before going to new level.
-                winStatus=0;
-                // Resetting the displacement of each of the primitives to
-                // their actual value.
-                for(int i=0;i<6;i++)
-                {
-                    mov[i].setDisp(0,0);
-                    // reInitializing the selected shapes.
-                    placingPrimitives[i]=0;
-                }
-                // making the selected object back to its default position.
-                flag=-1;
+                resetParameters();
                 windowStatus = 2;
                 // reInitialize the score variable to 0 while going to level choosing screen.
                 score = 0;
@@ -165,20 +154,10 @@ void keyboardWindow3(unsigned char key, int x, int y)
               if(currentLevel > 7 ){
                   windowStatus = 4;
               }
-              // reset the winStatus to initial before going to new level.
-              winStatus=0;
               // load the data of the new level.
               play.selectLevel(currentLevel);
-              // Resetting the displacement of each of the primitives to
-              // their actual value.
-              for(int i=0;i<6;i++)
-              {
-                  mov[i].setDisp(0,0);
-                  // reInitializing the selected shapes.
-                  placingPrimitives[i]=0;
-              }
-              // making the selected object back to its default position.
-              flag=-1;
+              resetParameters();
+              calScore();
               break;
             }
             break;
@@ -204,9 +183,6 @@ void keyboardWindow3(unsigned char key, int x, int y)
                   numberOfTries--;
                 if(numberOfTries == 0 && winStatus != 1)
                     windowStatus = 5;
-                
-                if(winStatus==1)
-                    calScore();
                 break;
         case '1':flag=0;placingPrimitives[0]?placingPrimitives[0]=0:placingPrimitives[0]=1; break;
         case '2':flag=1;placingPrimitives[1]?placingPrimitives[1]=0:placingPrimitives[1]=1; break;
@@ -220,19 +196,19 @@ void specialKeyboardWindow3(int key, int x, int y)
 {
     switch (key) {
 		case GLUT_KEY_LEFT :
-            if(mov[flag].xMov>=-20&&play.shapeIndex[flag]==1)
+            if(mov[flag].xMov>=-20)
                 mov[flag].xMov--;
 			break;
 		case GLUT_KEY_RIGHT :
-            if(mov[flag].xMov<=20&&play.shapeIndex[flag]==1)
+            if(mov[flag].xMov<=20)
                 mov[flag].xMov++;
 			break;
 		case GLUT_KEY_UP :
-            if(mov[flag].yMov<=20&&play.shapeIndex[flag]==1)
+            if(mov[flag].yMov<=20)
                 mov[flag].yMov++;
             break;
 		case GLUT_KEY_DOWN :
-            if(mov[flag].yMov>=-20&&play.shapeIndex[flag]==1)
+            if(mov[flag].yMov>=-20)
                 mov[flag].yMov--;
             break;
         case GLUT_KEY_F11:glutFullScreenToggle();break;
@@ -335,22 +311,13 @@ void specialKeyboardWindow1(int key, int x, int y)
 }
 void window2()
 {
-    winStatus=0;
-    for(int i=0;i<6;i++)
-    {
-      mov[i].setDisp(0,0);
-      // reInitializing the selected shapes.
-      placingPrimitives[i]=0;
-    }
-    // making the selected object back to its default position.
-    flag=-1;
     if(windowStatus!=3 && difficulty == 3){numberOfTries = 3;}
     if(windowStatus!=3 && difficulty == 2){ numberOfTries = 2;}
     if(windowStatus!=3 && difficulty == 1){ numberOfTries = 1;}
     drawstring((windowWidth/2)-100,windowHeight-100,0.0,"CHOOSE LEVEL!");
     glBegin(GL_LINES);
-    glVertex2f((windowWidth/2)-100,windowHeight-120);
-    glVertex2f((windowWidth/2)+100,windowHeight-120);
+        glVertex2f((windowWidth/2)-100,windowHeight-120);
+        glVertex2f((windowWidth/2)+100,windowHeight-120);
     glEnd();
 
     int coo[8][4] = {
@@ -372,7 +339,6 @@ void window2()
                         (windowWidth/8)+coo[tempi][2],
                         (windowHeight)+coo[tempi][3]);
     }
-    
     glColor4ub(255,255,255,255);
     drawstring((windowWidth/8)-10,windowHeight-190,0.0,"1.");
     drawstring((windowWidth/8)+140,windowHeight-190,0.0,"2.");
@@ -387,46 +353,40 @@ void keyboardWindow2(unsigned char key, int x, int y)
     switch (key)
     {
         case 13:
+            windowStatus=3;
             if(boxStatus==1)
             {
-                windowStatus=3;
                 currentLevel=1;
                 play.selectLevel(currentLevel);
 
             }
             else if(boxStatus==2)
             {
-                windowStatus=3;
                 currentLevel=2;
                 play.selectLevel(currentLevel);
             }
             else if(boxStatus==3)
             {
-                windowStatus=3;
                 currentLevel=3;
                 play.selectLevel(currentLevel);
             }
             else if(boxStatus==4)
             {
-                windowStatus=3;
                 currentLevel=4;
                 play.selectLevel(currentLevel);
             }
             else if(boxStatus==5)
             {
-                windowStatus=3;
                 currentLevel=5;
                 play.selectLevel(currentLevel);
             }
             else if(boxStatus==6)
             {
-                windowStatus=3;
                 currentLevel=6;
                 play.selectLevel(currentLevel);
             }
             else if(boxStatus==7)
             {
-                windowStatus=3;
                 currentLevel=7;
                 play.selectLevel(currentLevel);
             }
@@ -443,13 +403,27 @@ void specialKeyboardWindow2(int key, int x, int y)
 
     switch (key) {
         case GLUT_KEY_LEFT :
-            {if(i>1)
-                i--;}
+            switch(i) {
+                case 1: i=7; break;
+                case 2: i=1; break;
+                case 3: i=2; break;
+                case 4: i=3; break;
+                case 5: i=4; break;
+                case 6: i=5; break;
+                case 7: i=6; break;
+            }
             break;
         case GLUT_KEY_RIGHT :
-             {if(i<8)
-                 i++;}
-             break;
+            switch(i) {
+                case 1: i=2; break;
+                case 2: i=3; break;
+                case 3: i=4; break;
+                case 4: i=5; break;
+                case 5: i=6; break;
+                case 6: i=7; break;
+                case 7: i=1; break;
+            }
+            break;
         case GLUT_KEY_F11:glutFullScreenToggle();break;
     }
     boxStatus=i;
@@ -478,10 +452,10 @@ void keyboardWindow4(unsigned char key, int x, int y)
             break;
         case 'l':
         case 'L':
+            resetParameters();
             // key to go back to level choose window.
             windowStatus=2;
             score=0;
-            winStatus=0;
             break;
     }
     glutPostRedisplay();
@@ -517,10 +491,10 @@ void keyboardWindow5(unsigned char key, int x, int y)
             break;
         case 'l':
         case 'L':
+            resetParameters();
             // key to go back to level choose window.
             windowStatus=2;
             score=0;
-            winStatus=0;
             break;
     }
     glutPostRedisplay();
