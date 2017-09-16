@@ -24,17 +24,6 @@ extern int windowStatus;
 
 extern int gameFinish;
 
-// Menu items
-enum MENU_TYPE
-{
-        GAME_EASY,
-        GAME_MEDIUM,
-        GAME_HARD,
-};
-
-// Assign a default value
-MENU_TYPE show = GAME_EASY;
-
 // Menu handling function declaration
 void menu(int);
 
@@ -44,31 +33,14 @@ static void displayFunction(void);
 static void idleFunction(void);
 static void keyFunction(unsigned char, int, int);
 static void processSpecialKeys(int, int, int);
-// static void mouseMove(int, int);
-static void mouseButton(int, int, int, int);
 
 extern movement mov[6];
 extern level play;
 extern PrimiviteShapes topBar;
 extern PrimiviteMovShapes item;
 
-void printInstructions() {
-    printf("\n*********SICK ABSTRACT **********\n\n\n1. For navigating throught the menu use the ARROW keys and ENTER key.");
-    printf("\n\n2. For selecting a object use the corresponding label number of the specified for the object.");
-    printf("\n\n3. Objects can also be selected using mouse click, just point at the object and left click.");
-    printf("\n\n4. For movement of the object use the ARROW keys or the, 'w','a','s'&'d' keys");
-    printf("\n\n5. For checking the correctness of the object just Press Enter key.");
-    printf("\n\n6. If user cleared any level just press the 'N' key to jump to the next level.");
-    printf("\n\n7. If user cleared any level, press 'L' to jump to level select window.");
-    printf("\n\n8. In any screen if user wants to QUIT just press 'q'or 'esc'.");
-    printf("\n\n******** PRESS ENTER TO CONTINUE *********");
-}
 int main(int argc, char *argv[])
 {
-    char temp;
-    printInstructions();
-    temp = getchar();
-    // init GLUT and create Window
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE);
     windowWidth = glutGet(GLUT_SCREEN_WIDTH);
@@ -98,20 +70,6 @@ int main(int argc, char *argv[])
     // to allow animations.
     glutIdleFunc(idleFunction);
 
-    // sets the glut to listen to the mouse actions.
-    glutMouseFunc(mouseButton);
-    // glutMotionFunc(mouseMove);
-
-    glutCreateMenu(menu);
-
-  	// Add menu items
-  	glutAddMenuEntry("Easy", GAME_EASY);
-  	glutAddMenuEntry("Medium", GAME_MEDIUM);
-  	glutAddMenuEntry("Hard", GAME_HARD);
-
-  	// Associate a mouse button with menu
-  	glutAttachMenu(GLUT_RIGHT_BUTTON);
-
     // sets the background color RED:GREEN:BLUE:ALPHA
     glClearColor((23.0/255),(32.0/255),(42.0/255),0);
     // glClearColor(1.0,1.0,1.0,1);
@@ -128,21 +86,6 @@ int main(int argc, char *argv[])
     glutMainLoop();
 
     return 1;
-}
-
-// Menu handling function definition
-void menu(int item)
-{
-        switch (item)
-        {
-          case GAME_EASY:	if(windowStatus!=3){difficulty = 3; numberOfTries = 3;} break;
-          case GAME_MEDIUM: if(windowStatus!=3){difficulty = 2; numberOfTries = 2;} break;
-          case GAME_HARD: if(windowStatus!=3){difficulty = 1; numberOfTries = 1;} break;
-        }
-
-        glutPostRedisplay();
-
-        return;
 }
 
 
@@ -218,10 +161,4 @@ static void processSpecialKeys(int key, int x, int y)
     else if(windowStatus==5)
         specialKeyboardWindow5(key,x,y);
     glutPostRedisplay();
-}
-
-static void mouseButton(int button, int state, int x, int y)
-{
-    if(windowStatus==3)
-        mouseWindow3(button,state,x,y);
 }

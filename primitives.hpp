@@ -395,7 +395,7 @@ protected:
     }
 
 public:
-    void draw(int stat,GLenum mode)
+    void draw(int stat)
     {
         glLoadName(stat+1);
         switch(stat)
@@ -562,65 +562,6 @@ public:
 
 }item;
 
-void processHits (GLint hits, GLuint buffer[])
-{
-   unsigned int i, j;
-   GLuint names, *ptr;
-
-   ptr = (GLuint *) buffer;
-   for (i = 0; i < hits; i++)
-   { /*  for each hit  */
-      names = *ptr;
-      ptr+=3;
-      for (j = 0; j < names; j++)
-      { /*  for each name */
-         if( *ptr == 8 )
-         {
-            // if the player clear this level then in 'n'/'N'
-            // we have to jump into the next level.
-            currentLevel++;
-            if(currentLevel > 7 ){
-                windowStatus = 4;
-            }
-            // reset the winStatus to initial before going to new level.
-            winStatus=0;
-            // load the data of the new level.
-            play.selectLevel(currentLevel);
-            // Resetting the displacement of each of the primitives to
-            // their actual value.
-            for(int i=0;i<6;i++)
-            {
-                mov[i].setDisp(0,0);
-                // reInitializing the selected shapes.
-                placingPrimitives[i]=0;
-            }
-            // making the selected object back to its default position.
-            flag=-1;
-            break;
-         }
-         else if( *ptr == 7 )
-         {
-            // reset the winStatus to initial before going to new level.
-            winStatus=0;
-            // Resetting the displacement of each of the primitives to
-            // their actual value.
-            for(int i=0;i<6;i++)
-            {
-                mov[i].setDisp(0,0);
-                // reInitializing the selected shapes.
-                placingPrimitives[i]=0;
-            }
-            // making the selected object back to its default position.
-            flag=-1;
-            windowStatus = 2;
-            break;
-         }
-         flag=*ptr-1;
-         placingPrimitives[flag]?placingPrimitives[flag]=0:placingPrimitives[flag]=1;
-         ptr++;
-      }
-   }
-}
 void resetParameters() {
     // reset the winStatus to initial before going to new level.
     winStatus=0;

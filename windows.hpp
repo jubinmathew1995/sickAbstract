@@ -1,4 +1,4 @@
-void window3(GLenum mode=GL_RENDER)
+void window3()
 {
     if(numberOfTries==0)
         windowStatus = 5;
@@ -6,7 +6,7 @@ void window3(GLenum mode=GL_RENDER)
     for(int i=0;i<6;i++)
     {
         chooseColor(primitiveColor[i][0],primitiveColor[i][1],primitiveColor[i][2],play.shapeIndex[i]);
-        topBar.draw(i,mode);
+        topBar.draw(i);
     }
 
     drawAxes();
@@ -213,43 +213,6 @@ void specialKeyboardWindow3(int key, int x, int y)
             break;
         case GLUT_KEY_F11:glutFullScreenToggle();break;
 	}
-}
-void mouseWindow3(int button, int state, int x, int y)
-{
-    GLuint selectBuf[SIZE];
-    GLint hits;
-    GLint viewport[4];
-
-    if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN)
-    {
-        glGetIntegerv (GL_VIEWPORT, viewport);
-
-        glSelectBuffer (SIZE, selectBuf);
-        glRenderMode(GL_SELECT);
-
-        glInitNames();
-        glPushName(0);
-
-        glMatrixMode (GL_PROJECTION);
-        glPushMatrix ();
-        glLoadIdentity ();
-        /* create 5x5 pixel picking region near cursor location */
-        gluPickMatrix ((GLdouble) x, (GLdouble) (viewport[3] - y),
-                      5.0, 5.0, viewport);
-        gluOrtho2D (0, windowWidth, 0, windowHeight);
-        window3(GL_SELECT);
-
-
-        glMatrixMode (GL_PROJECTION);
-        glPopMatrix ();
-        glFlush ();
-
-        hits = glRenderMode (GL_RENDER);
-        processHits (hits, selectBuf);
-
-        glutPostRedisplay();
-        glutSwapBuffers();
-    }
 }
 
 void window1()
