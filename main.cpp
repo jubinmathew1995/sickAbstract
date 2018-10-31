@@ -11,6 +11,7 @@
 
 // window TITLE, WIDTH and HEIGHT
 #define WINDOW_TITLE_PREFIX "Sick Abstract"
+#define SUCCESS 1
 extern int windowWidth,windowHeight;
 
 // coodinates of the center for the primitives objects.
@@ -85,7 +86,7 @@ int main(int argc, char *argv[])
     // enter GLUT event processing cycle/
     glutMainLoop();
 
-    return 1;
+    return SUCCESS;
 }
 
 
