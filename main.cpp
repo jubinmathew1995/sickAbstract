@@ -11,7 +11,7 @@
 
 // window TITLE, WIDTH and HEIGHT
 #define WINDOW_TITLE_PREFIX "Sick Abstract"
-#define SUCCESS 1
+#define SUCCESS 0
 extern int windowWidth,windowHeight;
 
 // coodinates of the center for the primitives objects.
